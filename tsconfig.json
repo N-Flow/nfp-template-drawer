@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* Target */
+    "target": "es2018",
+    "lib": ["dom", "dom.iterable", "esnext"],
+
+    /* Modules */
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+
+    /* JavaScript Support */
+    "allowJs": true,
+    "jsx": "react",
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+    "skipLibCheck": true,
+
+    /* Output */
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types"],
+
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist", "assets"]
+}
