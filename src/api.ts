@@ -45,6 +45,7 @@ export let RsdTextarea: FunctionComponent<RsdInputProps>
 export let RsdTitle: FunctionComponent<RsdTitleProps>
 
 export let rss: { [key: string]: string }
+export let scrollbar: { [key: string]: string }
 export let rsbStyles: { [key: string]: string }
 
 export let SpaceReact: typeof React
@@ -79,6 +80,7 @@ export function loadApi() {
   UserService = api.services.main.UserService
 
   rss = api.styles.rss
+  scrollbar = api.styles.scrollbar
   rsbStyles = api.styles.rsbStyles
 
   Anchor = api.components.normal.Anchor
