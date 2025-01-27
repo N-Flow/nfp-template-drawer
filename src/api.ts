@@ -1,9 +1,9 @@
-import {OfpApi, SpaceServiceApi,
+import {OfpApi,
+  SpaceServiceApi, StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
+  ToggleDialogApi,
   AntCheckboxProps, AntColorProps, AntNumberProps, AntSwitchProps,
   RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdDropdownProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdSelectableButtonProps,
-  SpanProps,
-  AnchorProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps,
-  StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi} from "oflow-interface";
+  AnchorProps, SpanProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps} from "oflow-interface";
 import React, {FunctionComponent} from "react";
 import * as SourceBabylonCore from "@babylonjs/core";
 
@@ -14,6 +14,8 @@ export let Internationalization: typeof InternationalizationServiceApi
 export let MeetingService: typeof MeetingServiceApi
 export let PluginService: typeof PluginServiceApi
 export let UserService: typeof UserServiceApi
+
+export let ToggleDialog: typeof ToggleDialogApi
 
 export let Anchor: FunctionComponent<AnchorProps>
 export let DrawerLoading: FunctionComponent<SpanProps>
@@ -77,6 +79,8 @@ export function loadApi() {
   MeetingService = api.services.main.MeetingService
   PluginService = api.services.main.PluginService
   UserService = api.services.main.UserService
+
+  ToggleDialog = api.services.view.ToggleDialog
 
   rss = api.styles.rss
   rsbStyles = api.styles.rsbStyles
