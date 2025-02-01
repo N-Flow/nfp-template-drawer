@@ -1,7 +1,7 @@
 import {OfpApi,
   SpaceServiceApi, StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
   ToggleDialogApi,
-  AntCheckboxProps, AntColorProps, AntNumberProps, AntSwitchProps,
+  AntCheckboxProps, AntColorProps, AntNumberProps, AntSelectProps, AntSwitchProps,
   RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdDropdownProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdSelectableButtonProps,
   AnchorProps, SpanProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps} from "oflow-interface";
 import React, {FunctionComponent} from "react";
@@ -28,6 +28,7 @@ export let ScrollBar: FunctionComponent<ScrollBarProps>
 export let AntCheckbox: FunctionComponent<AntCheckboxProps>
 export let AntColor: FunctionComponent<AntColorProps>
 export let AntNumber: FunctionComponent<AntNumberProps>
+export let AntSelect: FunctionComponent<AntSelectProps>
 export let AntSwitch: FunctionComponent<AntSwitchProps>
 
 export let RsdButton: FunctionComponent<RsdButtonProps>
@@ -96,6 +97,7 @@ export function loadApi() {
   AntCheckbox = api.components.ant.AntCheckbox
   AntNumber = api.components.ant.AntNumber
   AntColor = api.components.ant.AntColor
+  AntSelect = api.components.ant.AntSelect
   AntSwitch = api.components.ant.AntSwitch
 
   RsdButton = api.components.rsd.RsdButton
