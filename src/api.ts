@@ -1,21 +1,30 @@
-import {OfpApi,
-  SpaceServiceApi, StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
-  ToggleDialogApi,
+import {
+  OfpApi, SpaceServiceApi,
   AntCheckboxProps, AntColorProps, AntNumberProps, AntSelectProps, AntSwitchProps,
   RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdDropdownProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdSelectableButtonProps,
-  AnchorProps, SpanProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps} from "oflow-interface";
+  SpanProps,
+  AnchorProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps,
+  StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
+  ThemeProviderProps,
+  ModulePreloaderApi,
+  SyncServiceApi,
+  RvGlobalServiceApi
+} from "oflow-interface";
 import React, {FunctionComponent} from "react";
 import * as SourceBabylonCore from "@babylonjs/core";
+import * as RhineVar from 'rhine-var'
 
-export let SpaceService: typeof SpaceServiceApi
-export let StatusService: typeof StatusServiceApi
-export let LocalFileService: typeof LocalFileServiceApi
-export let Internationalization: typeof InternationalizationServiceApi
-export let MeetingService: typeof MeetingServiceApi
-export let PluginService: typeof PluginServiceApi
-export let UserService: typeof UserServiceApi
+export let spaceService: SpaceServiceApi
+export let statusService: StatusServiceApi
+export let pluginService: PluginServiceApi
+export let internationalizationService: InternationalizationServiceApi
+export let userService: UserServiceApi
+export let localFileService: LocalFileServiceApi
+export let meetingService: MeetingServiceApi
+export let modulePreloader: ModulePreloaderApi
 
-export let ToggleDialog: typeof ToggleDialogApi
+export let syncService: SyncServiceApi
+export let rvGlobalService: RvGlobalServiceApi
 
 export let Anchor: FunctionComponent<AnchorProps>
 export let DrawerLoading: FunctionComponent<SpanProps>
@@ -26,6 +35,7 @@ export let UploadButtonAndList: FunctionComponent<UploadButtonAndListProps>
 export let ScrollBar: FunctionComponent<ScrollBarProps>
 
 export let AntCheckbox: FunctionComponent<AntCheckboxProps>
+export let ThemeProvider: FunctionComponent<ThemeProviderProps>
 export let AntColor: FunctionComponent<AntColorProps>
 export let AntNumber: FunctionComponent<AntNumberProps>
 export let AntSelect: FunctionComponent<AntSelectProps>
@@ -70,18 +80,27 @@ export let useTransition: typeof React.useTransition
 
 export let Babylon: typeof SourceBabylonCore
 
+export let clsx: (...args: (string | undefined | null)[]) => string
+
+export let rhineVar: typeof RhineVar
+export let useRhine: typeof RhineVar.useRhine
+
+
+
 export function loadApi() {
-  const api = (window as any).ofpConnector.ofpApi as OfpApi
+  const api = (window as any).ofpConnector.getOfpApi() as OfpApi
 
-  SpaceService = api.services.main.SpaceService
-  StatusService = api.services.main.StatusService
-  LocalFileService = api.services.main.LocalFileService
-  Internationalization = api.services.main.Internationalization
-  MeetingService = api.services.main.MeetingService
-  PluginService = api.services.main.PluginService
-  UserService = api.services.main.UserService
+  spaceService = api.services.main.spaceService
+  statusService = api.services.main.statusService
+  localFileService = api.services.main.localFileService
+  internationalizationService = api.services.main.internationalizationService
+  meetingService = api.services.main.meetingService
+  pluginService = api.services.main.pluginService
+  userService = api.services.main.userService
+  modulePreloader = api.services.main.modulePreloader
 
-  ToggleDialog = api.services.view.ToggleDialog
+  syncService = api.services.sync.syncService
+  rvGlobalService = api.services.sync.rvGlobalService
 
   rss = api.styles.rss
   rsbStyles = api.styles.rsbStyles
@@ -94,6 +113,7 @@ export function loadApi() {
   UploadButtonAndList = api.components.normal.UploadButtonAndList
   ScrollBar = api.components.normal.ScrollBar
 
+  ThemeProvider = api.components.ant.ThemeProvider
   AntCheckbox = api.components.ant.AntCheckbox
   AntNumber = api.components.ant.AntNumber
   AntColor = api.components.ant.AntColor
@@ -135,5 +155,10 @@ export function loadApi() {
   useSyncExternalStore = SpaceReact.useSyncExternalStore
   useTransition = SpaceReact.useTransition
 
-  Babylon = api.modules.babylon
+  Babylon = api.modules.babylon as any
+
+  clsx = api.modules.clsx
+
+  rhineVar = api.modules.rhineVar
+  useRhine = rhineVar.useRhine
 }

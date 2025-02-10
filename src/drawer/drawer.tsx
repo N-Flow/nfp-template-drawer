@@ -1,13 +1,16 @@
 import React from "react";
 import styles from "./drawer.module.sass"
-import {rss, ScrollBar} from "../api";
+import {rss, ScrollBar, ThemeProvider} from "../api";
 import clsx from "clsx";
+import {ThemeColor} from "oflow-interface";
 
 export default function Drawer() {
 
-  return <div className={clsx(rss.drawer, styles.drawer)}>
-    <ScrollBar className={clsx(rss.main, 'bottom-margin-12')}>
+  return  <ThemeProvider theme={ThemeColor.PURPLE}>
+    <div className={clsx(rss.drawer, styles.drawer)}>
+      <ScrollBar className={clsx(rss.main, 'bottom-margin-12')}>
 
-    </ScrollBar>
-  </div>
+      </ScrollBar>
+    </div>
+  </ThemeProvider>
 }
