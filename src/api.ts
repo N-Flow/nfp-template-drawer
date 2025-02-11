@@ -8,11 +8,10 @@ import {
   ThemeProviderProps,
   ModulePreloaderApi,
   SyncServiceApi,
-  RvGlobalServiceApi
+  RvGlobalServiceApi,
+  HistoryManagerApi
 } from "oflow-interface";
-import React, {FunctionComponent} from "react";
-import * as SourceBabylonCore from "@babylonjs/core";
-import * as RhineVar from 'rhine-var'
+import type { FunctionComponent } from "react";
 
 export let spaceService: SpaceServiceApi
 export let statusService: StatusServiceApi
@@ -24,6 +23,7 @@ export let meetingService: MeetingServiceApi
 export let modulePreloader: ModulePreloaderApi
 
 export let syncService: SyncServiceApi
+export let historyManager: HistoryManagerApi
 export let rvGlobalService: RvGlobalServiceApi
 
 export let Anchor: FunctionComponent<AnchorProps>
@@ -60,32 +60,6 @@ export let RsdTitle: FunctionComponent<RsdTitleProps>
 export let rss: { [key: string]: string }
 export let rsbStyles: { [key: string]: string }
 
-export let SpaceReact: typeof React
-// export let useActionState: typeof React.useActionState
-export let useCallback: typeof React.useCallback
-export let useContext: typeof React.useContext
-export let useDebugValue: typeof React.useDebugValue
-export let useDeferredValue: typeof React.useDeferredValue
-export let useEffect: typeof React.useEffect
-export let useId: typeof React.useId
-export let useImperativeHandle: typeof React.useImperativeHandle
-export let useInsertionEffect: typeof React.useInsertionEffect
-export let useLayoutEffect: typeof React.useLayoutEffect
-export let useMemo: typeof React.useMemo
-export let useReducer: typeof React.useReducer
-export let useRef: typeof React.useRef
-export let useState: typeof React.useState
-export let useSyncExternalStore: typeof React.useSyncExternalStore
-export let useTransition: typeof React.useTransition
-
-export let Babylon: typeof SourceBabylonCore
-
-export let clsx: (...args: (string | undefined | null)[]) => string
-
-export let rhineVar: typeof RhineVar
-export let useRhine: typeof RhineVar.useRhine
-
-
 
 export function loadApi() {
   const api = (window as any).ofpConnector.getOfpApi() as OfpApi
@@ -100,6 +74,7 @@ export function loadApi() {
   modulePreloader = api.services.main.modulePreloader
 
   syncService = api.services.sync.syncService
+  historyManager = api.services.sync.historyManager
   rvGlobalService = api.services.sync.rvGlobalService
 
   rss = api.styles.rss
@@ -135,30 +110,4 @@ export function loadApi() {
   RsdSwitch = api.components.rsd.RsdSwitch
   RsdTextarea = api.components.rsd.RsdTextarea
   RsdTitle = api.components.rsd.RsdTitle
-
-  SpaceReact = api.modules.react as any
-  // useActionState = SpaceReact.useActionState
-  useCallback = SpaceReact.useCallback
-  useContext = SpaceReact.useContext
-  useDebugValue = SpaceReact.useDebugValue
-  useDeferredValue = SpaceReact.useDeferredValue
-  useEffect = SpaceReact.useEffect
-  useId = SpaceReact.useId
-  useImperativeHandle = SpaceReact.useImperativeHandle
-  useInsertionEffect = SpaceReact.useInsertionEffect
-  useLayoutEffect = SpaceReact.useLayoutEffect
-  useMemo = SpaceReact.useMemo
-  // useOptimistic = SpaceReact.useOptimistic
-  useReducer = SpaceReact.useReducer
-  useRef = SpaceReact.useRef
-  useState = SpaceReact.useState
-  useSyncExternalStore = SpaceReact.useSyncExternalStore
-  useTransition = SpaceReact.useTransition
-
-  Babylon = api.modules.babylon as any
-
-  clsx = api.modules.clsx
-
-  rhineVar = api.modules.rhineVar
-  useRhine = rhineVar.useRhine
 }

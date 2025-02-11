@@ -34,11 +34,11 @@ export default class Plugin implements DrawerPlugin {
   position = IconPluginPosition.TOP_LEFT
   group = ''
   label = ''
-  color = ThemeColor.GREEN
+  color = ThemeColor.BLUE
   enabled = false
 
   icon = () => {
-    return <span className='material-symbols-rounded'></span>
+    return <span className='material-symbols-rounded'>bug_report</span>
   }
 
   drawer = Drawer

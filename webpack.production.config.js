@@ -1,22 +1,35 @@
 const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+const packageJson = require('./package.json');
+const packageName = packageJson.name;
 
 module.exports = {
   mode: 'production',
   entry: './src/index.ts',
   output: {
-    filename: 'index.js',
+    filename: packageName + '.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css'],
+  },
+  externals: {
+    'oflow-interface': 'OFlowInterface',
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    '@babylonjs/core': 'BabylonCore',
+    'rhine-var': 'RhineVar',
   },
   module: {
     rules: [
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -32,7 +45,7 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -56,5 +69,16 @@ module.exports = {
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: packageName + '.css',
+    }),
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserPlugin(),
+    ],
+  }
 }

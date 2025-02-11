@@ -15,7 +15,7 @@ class CompilationNotifierPlugin {
     compiler.hooks.done.tap('CompilationNotifierPlugin', () => {
       if (!wss) return;
       setTimeout(() => {
-        let message = 'Compiled At: ' + Date.now()
+        let message = 'Compiled at: ' + Date.now()
         console.log('\n' + message + '\n')
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
