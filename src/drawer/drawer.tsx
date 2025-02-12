@@ -6,7 +6,7 @@ import {ThemeColor} from "oflow-interface";
 
 export default function Drawer() {
 
-  return  <ThemeProvider theme={ThemeColor.PURPLE}>
+  return <ThemeProvider theme={ThemeColor.PURPLE}>
     <div className={clsx(rss.drawer, styles.drawer)}>
       <ScrollBar className={rss.main} drawer>
 
