@@ -10,7 +10,7 @@ module.exports = {
   mode: 'production',
   entry: './src/index.ts',
   output: {
-    filename: packageName + '.js',
+    filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -71,7 +71,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: packageName + '.css',
+      filename: 'index.css',
     }),
   ],
   optimization: {

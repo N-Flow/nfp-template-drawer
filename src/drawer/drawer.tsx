@@ -8,7 +8,7 @@ export default function Drawer() {
 
   return  <ThemeProvider theme={ThemeColor.PURPLE}>
     <div className={clsx(rss.drawer, styles.drawer)}>
-      <ScrollBar className={clsx(rss.main, 'bottom-margin-12')}>
+      <ScrollBar className={rss.main} drawer>
 
       </ScrollBar>
     </div>
