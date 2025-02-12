@@ -1,7 +1,7 @@
 import {
   OfpApi, SpaceServiceApi,
   AntCheckboxProps, AntColorProps, AntNumberProps, AntSelectProps, AntSwitchProps,
-  RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdDropdownProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdSelectableButtonProps,
+  RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdSelectProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdSelectableButtonProps,
   SpanProps,
   AnchorProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps,
   StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
@@ -45,7 +45,7 @@ export let RsdButton: FunctionComponent<RsdButtonProps>
 export let RsdSelectableButton: FunctionComponent<RsdSelectableButtonProps>
 export let RsdCheckbox: FunctionComponent<RsdCheckboxProps>
 export let RsdColor: FunctionComponent<RsdColorProps>
-export let RsdDropdown: FunctionComponent<RsdDropdownProps>
+export let RsdSelect: FunctionComponent<RsdSelectProps>
 export let RsdFileSelect: FunctionComponent<RsdFileSelectProps>
 export let RsdFileSelectButton: FunctionComponent<RsdFileSelectProps>
 export let RsdInput: FunctionComponent<RsdInputProps>
@@ -99,7 +99,7 @@ export function loadApi() {
   RsdSelectableButton = api.components.rsd.RsdSelectableButton
   RsdCheckbox = api.components.rsd.RsdCheckbox
   RsdColor = api.components.rsd.RsdColor
-  RsdDropdown = api.components.rsd.RsdDropdown
+  RsdSelect = api.components.rsd.RsdSelect
   RsdFileSelect = api.components.rsd.RsdFileSelect
   RsdFileSelectButton = api.components.rsd.RsdFileSelectButton
   RsdInput = api.components.rsd.RsdInput
