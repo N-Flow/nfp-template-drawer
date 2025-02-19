@@ -38,6 +38,15 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
+  externals: {
+    'oflow-interface': 'OFlowInterface',
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    '@babylonjs/core': 'BabylonCore',
+    'valtio': 'Valtio',
+    'rhine-var': 'RhineVar',
+    'antd': 'AntD',
+  },
   module: {
     rules: [
       {

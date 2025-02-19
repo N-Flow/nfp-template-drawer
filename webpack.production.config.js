@@ -22,7 +22,9 @@ module.exports = {
     'react': 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',
+    'valtio': 'Valtio',
     'rhine-var': 'RhineVar',
+    'antd': 'AntD',
   },
   module: {
     rules: [
