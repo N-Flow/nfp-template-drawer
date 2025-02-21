@@ -15,6 +15,8 @@ export default class Plugin implements DrawerPlugin {
   type: PluginType = PluginType.DRAWER
   theme: ThemeColor = ThemeColor.BLUE
 
+  data = {}
+
   async onLoad() {
     loadApi()
   }
