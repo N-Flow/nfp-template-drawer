@@ -2,4 +2,4 @@ import Plugin from "./plugin";
 
 export { Plugin }
 
-(window as any).ofpConnector.load(new Plugin())
+(window as any).ofpConnector.install(new Plugin())

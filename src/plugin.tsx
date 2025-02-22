@@ -17,16 +17,16 @@ export default class Plugin implements DrawerPlugin {
 
   data = {}
 
-  async onLoad() {
+  async onInstall() {
     loadApi()
   }
-  async onActivate() {
+  async onEnable() {
 
   }
-  async onDeactivate() {
+  async onDisable() {
 
   }
-  async onDispose() {
+  async onUninstall() {
 
   }
 
@@ -37,7 +37,7 @@ export default class Plugin implements DrawerPlugin {
   group = ''
   label = ''
   color = ThemeColor.BLUE
-  enabled = false
+  open = false
 
   icon = () => {
     return <span className='material-symbols-rounded'>bug_report</span>
