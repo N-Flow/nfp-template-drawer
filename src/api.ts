@@ -18,7 +18,8 @@ import {
   TStepServiceApi,
   UseTStep,
   UseStepOptions,
-  DialogProps
+  DialogProps,
+  AntEmptyProps
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -60,6 +61,7 @@ export let AntColor: FunctionComponent<AntColorProps>
 export let AntNumber: FunctionComponent<AntNumberProps>
 export let AntSelect: FunctionComponent<AntSelectProps>
 export let AntSwitch: FunctionComponent<AntSwitchProps>
+export let AntEmpty: FunctionComponent<AntEmptyProps>
 
 export let RsdButton: FunctionComponent<RsdButtonProps>
 export let RsdSelectableButton: FunctionComponent<RsdSelectableButtonProps>
@@ -125,6 +127,7 @@ export function loadApi() {
   AntColor = api.components.ant.AntColor
   AntSelect = api.components.ant.AntSelect
   AntSwitch = api.components.ant.AntSwitch
+  AntEmpty = api.components.ant.AntEmpty
 
   RsdButton = api.components.rsd.RsdButton
   RsdSelectableButton = api.components.rsd.RsdSelectableButton
