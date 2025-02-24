@@ -10,7 +10,15 @@ import {
   SyncServiceApi,
   RvGlobalServiceApi,
   HistoryManagerApi,
-  UseTStep
+  MessageServiceApi,
+  OssUploadServiceApi,
+  ResourceServiceApi,
+  RvStepServiceApi,
+  RvFileServiceApi,
+  TStepServiceApi,
+  UseTStep,
+  UseStepOptions,
+  DialogProps
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -18,16 +26,24 @@ export let spaceService: SpaceServiceApi
 export let statusService: StatusServiceApi
 export let pluginService: PluginServiceApi
 export let internationalizationService: InternationalizationServiceApi
-export let userService: UserServiceApi
-export let localFileService: LocalFileServiceApi
 export let meetingService: MeetingServiceApi
+export let userService: UserServiceApi
 export let modulePreloader: ModulePreloaderApi
+export let messageService: MessageServiceApi
+export let localFileService: LocalFileServiceApi
+export let ossUploadService: OssUploadServiceApi
+export let resourceService: ResourceServiceApi
 
 export let syncService: SyncServiceApi
 export let historyManager: HistoryManagerApi
 export let rvGlobalService: RvGlobalServiceApi
+export let rvStepService: RvStepServiceApi
+export let rvFileService: RvFileServiceApi
+
+export let tStepService: TStepServiceApi
 
 export let useTStep: UseTStep
+export let useStepOptions: UseStepOptions
 
 export let Anchor: FunctionComponent<AnchorProps>
 export let DrawerLoading: FunctionComponent<SpanProps>
@@ -36,6 +52,7 @@ export let FlexGrow: FunctionComponent<{value?: number}>
 export let ProgressBar: FunctionComponent<ProgressBarProps>
 export let UploadButtonAndList: FunctionComponent<UploadButtonAndListProps>
 export let ScrollBar: FunctionComponent<ScrollBarProps>
+export let Dialog: FunctionComponent<DialogProps>
 
 export let AntCheckbox: FunctionComponent<AntCheckboxProps>
 export let ThemeProvider: FunctionComponent<ThemeProviderProps>
@@ -69,18 +86,26 @@ export function loadApi() {
 
   spaceService = api.services.main.spaceService
   statusService = api.services.main.statusService
-  localFileService = api.services.main.localFileService
+  pluginService = api.services.main.pluginService
   internationalizationService = api.services.main.internationalizationService
   meetingService = api.services.main.meetingService
-  pluginService = api.services.main.pluginService
   userService = api.services.main.userService
   modulePreloader = api.services.main.modulePreloader
+  messageService = api.services.main.messageService
+  localFileService = api.services.main.localFileService
+  ossUploadService = api.services.main.ossUploadService
+  resourceService = api.services.main.resourceService
 
   syncService = api.services.sync.syncService
   historyManager = api.services.sync.historyManager
   rvGlobalService = api.services.sync.rvGlobalService
+  rvStepService = api.services.sync.rvStepService
+  rvFileService = api.services.sync.rvFileService
+
+  tStepService = api.services.target.tStepService
 
   useTStep = api.hooks.useTStep
+  useStepOptions = api.hooks.useStepOptions
 
   rss = api.styles.rss
   rsbStyles = api.styles.rsbStyles
@@ -92,6 +117,7 @@ export function loadApi() {
   ProgressBar = api.components.normal.ProgressBar
   UploadButtonAndList = api.components.normal.UploadButtonAndList
   ScrollBar = api.components.normal.ScrollBar
+  Dialog = api.components.normal.Dialog
 
   ThemeProvider = api.components.ant.ThemeProvider
   AntCheckbox = api.components.ant.AntCheckbox
