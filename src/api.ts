@@ -9,17 +9,23 @@ import {
   ModulePreloaderApi,
   SyncServiceApi,
   RvGlobalServiceApi,
-  HistoryManagerApi,
+  HistoryServiceApi,
   MessageServiceApi,
   OssUploadServiceApi,
   ResourceServiceApi,
+  DialogServiceApi,
   RvStepServiceApi,
   RvFileServiceApi,
   TStepServiceApi,
   UseTStep,
   UseStepOptions,
   DialogProps,
-  AntEmptyProps
+  AntEmptyProps,
+  MaterialSymbolProps,
+  MainPortalProps,
+  FlexGrowProps,
+  FirstLoadServiceApi,
+  NativeEventServiceApi
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -34,9 +40,12 @@ export let messageService: MessageServiceApi
 export let localFileService: LocalFileServiceApi
 export let ossUploadService: OssUploadServiceApi
 export let resourceService: ResourceServiceApi
+export let firstLoadService: FirstLoadServiceApi
+export let dialogService: DialogServiceApi
+export let nativeEventService: NativeEventServiceApi
 
 export let syncService: SyncServiceApi
-export let historyManager: HistoryManagerApi
+export let historyService: HistoryServiceApi
 export let rvGlobalService: RvGlobalServiceApi
 export let rvStepService: RvStepServiceApi
 export let rvFileService: RvFileServiceApi
@@ -49,11 +58,11 @@ export let useStepOptions: UseStepOptions
 export let Anchor: FunctionComponent<AnchorProps>
 export let DrawerLoading: FunctionComponent<SpanProps>
 export let FileProgressBar: FunctionComponent<FileProgressBarProps>
-export let FlexGrow: FunctionComponent<{value?: number}>
 export let ProgressBar: FunctionComponent<ProgressBarProps>
 export let UploadButtonAndList: FunctionComponent<UploadButtonAndListProps>
 export let ScrollBar: FunctionComponent<ScrollBarProps>
 export let Dialog: FunctionComponent<DialogProps>
+export let MaterialSymbol: FunctionComponent<MaterialSymbolProps>
 
 export let AntCheckbox: FunctionComponent<AntCheckboxProps>
 export let ThemeProvider: FunctionComponent<ThemeProviderProps>
@@ -82,6 +91,12 @@ export let RsdTitle: FunctionComponent<RsdTitleProps>
 export let rss: { [key: string]: string }
 export let rsbStyles: { [key: string]: string }
 
+export let FlexGrow: FunctionComponent<FlexGrowProps>
+export let MainPortal: FunctionComponent<MainPortalProps>
+
+export let materialSymbol: FunctionComponent<any>
+export let sleep: FunctionComponent<any>
+
 
 export function loadApi() {
   const api = (window as any).ofpConnector.getOfpApi() as OfpApi
@@ -97,9 +112,12 @@ export function loadApi() {
   localFileService = api.services.main.localFileService
   ossUploadService = api.services.main.ossUploadService
   resourceService = api.services.main.resourceService
+  firstLoadService = api.services.main.firstLoadService
+  dialogService = api.services.main.dialogService
+  nativeEventService = api.services.main.nativeEventService
 
   syncService = api.services.sync.syncService
-  historyManager = api.services.sync.historyManager
+  historyService = api.services.sync.historyService
   rvGlobalService = api.services.sync.rvGlobalService
   rvStepService = api.services.sync.rvStepService
   rvFileService = api.services.sync.rvFileService
@@ -115,11 +133,11 @@ export function loadApi() {
   Anchor = api.components.normal.Anchor
   DrawerLoading = api.components.normal.DrawerLoading
   FileProgressBar = api.components.normal.FileProgressBar
-  FlexGrow = api.components.normal.FlexGrow
   ProgressBar = api.components.normal.ProgressBar
   UploadButtonAndList = api.components.normal.UploadButtonAndList
   ScrollBar = api.components.normal.ScrollBar
   Dialog = api.components.normal.Dialog
+  MaterialSymbol = api.components.normal.MaterialSymbol
 
   ThemeProvider = api.components.ant.ThemeProvider
   AntCheckbox = api.components.ant.AntCheckbox
@@ -144,4 +162,10 @@ export function loadApi() {
   RsdSwitch = api.components.rsd.RsdSwitch
   RsdTextarea = api.components.rsd.RsdTextarea
   RsdTitle = api.components.rsd.RsdTitle
+
+  FlexGrow = api.components.dev.FlexGrow
+  MainPortal = api.components.dev.MainPortal
+
+  materialSymbol = api.utils.materialSymbol
+  sleep = api.utils.sleep
 }
