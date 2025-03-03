@@ -132,4 +132,3 @@ dist
 # IDE
 .vscode/
 .idea/
-yarn.lock

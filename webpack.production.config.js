@@ -24,6 +24,7 @@ module.exports = {
     '@babylonjs/core': 'BabylonCore',
     'valtio': 'Valtio',
     'rhine-var': 'RhineVar',
+    'rhine-var/react': 'RhineVarReact',
     'antd': 'AntD',
   },
   module: {

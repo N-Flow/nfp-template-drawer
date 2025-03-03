@@ -1,7 +1,7 @@
 import {
   OfpApi, SpaceServiceApi,
   AntCheckboxProps, AntColorProps, AntNumberProps, AntSelectProps, AntSwitchProps,
-  RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdSelectProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdSelectableButtonProps,
+  RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdSelectProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdCheckableButtonProps,
   SpanProps,
   AnchorProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps,
   StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
@@ -25,7 +25,8 @@ import {
   MainPortalProps,
   FlexGrowProps,
   FirstLoadServiceApi,
-  NativeEventServiceApi
+  NativeEventServiceApi,
+  RvResourceServiceApi
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -49,6 +50,7 @@ export let historyService: HistoryServiceApi
 export let rvGlobalService: RvGlobalServiceApi
 export let rvStepService: RvStepServiceApi
 export let rvFileService: RvFileServiceApi
+export let rvResourceService: RvResourceServiceApi
 
 export let tStepService: TStepServiceApi
 
@@ -73,7 +75,7 @@ export let AntSwitch: FunctionComponent<AntSwitchProps>
 export let AntEmpty: FunctionComponent<AntEmptyProps>
 
 export let RsdButton: FunctionComponent<RsdButtonProps>
-export let RsdSelectableButton: FunctionComponent<RsdSelectableButtonProps>
+export let RsdCheckableButton: FunctionComponent<RsdCheckableButtonProps>
 export let RsdCheckbox: FunctionComponent<RsdCheckboxProps>
 export let RsdColor: FunctionComponent<RsdColorProps>
 export let RsdSelect: FunctionComponent<RsdSelectProps>
@@ -89,7 +91,7 @@ export let RsdTextarea: FunctionComponent<RsdInputProps>
 export let RsdTitle: FunctionComponent<RsdTitleProps>
 
 export let rss: { [key: string]: string }
-export let rsbStyles: { [key: string]: string }
+export let checkableButtonStyles: { [key: string]: string }
 
 export let FlexGrow: FunctionComponent<FlexGrowProps>
 export let MainPortal: FunctionComponent<MainPortalProps>
@@ -121,6 +123,7 @@ export function loadApi() {
   rvGlobalService = api.services.sync.rvGlobalService
   rvStepService = api.services.sync.rvStepService
   rvFileService = api.services.sync.rvFileService
+  rvResourceService = api.services.sync.rvResourceService
 
   tStepService = api.services.target.tStepService
 
@@ -128,7 +131,7 @@ export function loadApi() {
   useStepOptions = api.hooks.useStepOptions
 
   rss = api.styles.rss
-  rsbStyles = api.styles.rsbStyles
+  checkableButtonStyles = api.styles.checkableButtonStyles
 
   Anchor = api.components.normal.Anchor
   DrawerLoading = api.components.normal.DrawerLoading
@@ -148,7 +151,7 @@ export function loadApi() {
   AntEmpty = api.components.ant.AntEmpty
 
   RsdButton = api.components.rsd.RsdButton
-  RsdSelectableButton = api.components.rsd.RsdSelectableButton
+  RsdCheckableButton = api.components.rsd.RsdCheckableButton
   RsdCheckbox = api.components.rsd.RsdCheckbox
   RsdColor = api.components.rsd.RsdColor
   RsdSelect = api.components.rsd.RsdSelect
