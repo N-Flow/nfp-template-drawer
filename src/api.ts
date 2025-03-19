@@ -18,6 +18,7 @@ import {
   RvFileServiceApi,
   TStepServiceApi,
   UseTStep,
+  UseTAttribute,
   UseStepOptions,
   DialogProps,
   AntEmptyProps,
@@ -26,13 +27,22 @@ import {
   FlexGrowProps,
   FirstLoadServiceApi,
   NativeEventServiceApi,
-  RvResourceServiceApi
+  RvResourceServiceApi,
+  TAttributeServiceApi,
+  RsSelectionServiceApi,
+  RvLocationAttributeApi,
+  RvAttributesServiceApi,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
+
+export let rvLocationAttribute: RvLocationAttributeApi
 
 export let spaceService: SpaceServiceApi
 export let statusService: StatusServiceApi
 export let pluginService: PluginServiceApi
+
+export let rsSelectionService: RsSelectionServiceApi
+
 export let internationalizationService: InternationalizationServiceApi
 export let meetingService: MeetingServiceApi
 export let userService: UserServiceApi
@@ -47,14 +57,18 @@ export let nativeEventService: NativeEventServiceApi
 
 export let syncService: SyncServiceApi
 export let historyService: HistoryServiceApi
+
 export let rvGlobalService: RvGlobalServiceApi
 export let rvStepService: RvStepServiceApi
 export let rvFileService: RvFileServiceApi
 export let rvResourceService: RvResourceServiceApi
+export let rvAttributesService: RvAttributesServiceApi
 
 export let tStepService: TStepServiceApi
+export let tAttributeService: TAttributeServiceApi
 
 export let useTStep: UseTStep
+export let useTAttribute: UseTAttribute
 export let useStepOptions: UseStepOptions
 
 export let Anchor: FunctionComponent<AnchorProps>
@@ -103,9 +117,14 @@ export let sleep: FunctionComponent<any>
 export function loadApi() {
   const api = (window as any).ofpConnector.getOfpApi() as OfpApi
 
+  rvLocationAttribute = api.services.attributes.rvLocationAttribute
+
   spaceService = api.services.main.spaceService
   statusService = api.services.main.statusService
   pluginService = api.services.main.pluginService
+
+  rsSelectionService = api.services.engine.operate.rsSelectionService
+
   internationalizationService = api.services.main.internationalizationService
   meetingService = api.services.main.meetingService
   userService = api.services.main.userService
@@ -124,10 +143,13 @@ export function loadApi() {
   rvStepService = api.services.sync.rvStepService
   rvFileService = api.services.sync.rvFileService
   rvResourceService = api.services.sync.rvResourceService
+  rvAttributesService = api.services.sync.rvAttributesService
 
   tStepService = api.services.target.tStepService
+  tAttributeService = api.services.target.tAttributeService
 
   useTStep = api.hooks.useTStep
+  useTAttribute = api.hooks.useTAttribute
   useStepOptions = api.hooks.useStepOptions
 
   rss = api.styles.rss
