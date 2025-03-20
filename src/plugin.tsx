@@ -3,6 +3,7 @@ import {DrawerPlugin} from "oflow-interface";
 import {loadApi} from "./api";
 import React from 'react';
 import Drawer from "./drawer/drawer";
+import {proxy} from "valtio";
 
 
 export default class Plugin implements DrawerPlugin {
@@ -15,7 +16,9 @@ export default class Plugin implements DrawerPlugin {
   type: PluginType = PluginType.DRAWER
   theme: ThemeColor = ThemeColor.BLUE
 
-  data = {}
+  data = proxy({
+
+  })
 
   async onInstall() {
     loadApi()
