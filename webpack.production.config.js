@@ -38,7 +38,8 @@ module.exports = {
             options: {
               modules: {
                 namedExport: false,
-                localIdentName: '[hash:base64]',
+                localIdentName: '[hash:base64:8]',
+                localIdentHashSalt: packageName,
               }
             },
           },
@@ -54,7 +55,8 @@ module.exports = {
             options: {
               modules: {
                 namedExport: false,
-                localIdentName: '[hash:base64]',
+                localIdentName: '[hash:base64:8]',
+                localIdentHashSalt: packageName,
               },
             },
           },
