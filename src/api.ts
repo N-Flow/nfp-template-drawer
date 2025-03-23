@@ -32,20 +32,34 @@ import {
   RsSelectionServiceApi,
   RvLocationAttributeApi,
   RvAttributesServiceApi,
+  RvLabelAttributeApi,
+  RvLoopAttributeApi,
+  FirstLoadModelServiceApi,
+  CameraConfigurationAnimationApi,
+  CameraLocationAnimationApi,
+  FogAnimationApi,
+  GroundAnimationApi,
+  LightAnimationApi,
+  ShadowAnimationApi,
+  SkyboxAnimationApi,
+  RsNodeServiceApi,
+  RsModelServiceApi,
+  RsEnvironmentServiceApi,
+  UseBase,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
 export let rvLocationAttribute: RvLocationAttributeApi
+export let rvLabelAttribute: RvLabelAttributeApi
+export let rvLoopAttribute: RvLoopAttributeApi
 
 export let spaceService: SpaceServiceApi
 export let statusService: StatusServiceApi
 export let pluginService: PluginServiceApi
 
-export let rsSelectionService: RsSelectionServiceApi
-
 export let internationalizationService: InternationalizationServiceApi
-export let meetingService: MeetingServiceApi
 export let userService: UserServiceApi
+export let meetingService: MeetingServiceApi
 export let modulePreloader: ModulePreloaderApi
 export let messageService: MessageServiceApi
 export let localFileService: LocalFileServiceApi
@@ -54,6 +68,21 @@ export let resourceService: ResourceServiceApi
 export let firstLoadService: FirstLoadServiceApi
 export let dialogService: DialogServiceApi
 export let nativeEventService: NativeEventServiceApi
+export let firstLoadModelService: FirstLoadModelServiceApi
+
+export let cameraConfigurationAnimation: CameraConfigurationAnimationApi
+export let cameraLocationAnimation: CameraLocationAnimationApi
+export let fogAnimation: FogAnimationApi
+export let groundAnimation: GroundAnimationApi
+export let lightAnimation: LightAnimationApi
+export let shadowAnimation: ShadowAnimationApi
+export let skyboxAnimation: SkyboxAnimationApi
+
+export let rsSelectionService: RsSelectionServiceApi
+
+export let rsNodeService: RsNodeServiceApi
+export let rsModelService: RsModelServiceApi
+export let rsEnvironmentService: RsEnvironmentServiceApi
 
 export let syncService: SyncServiceApi
 export let historyService: HistoryServiceApi
@@ -67,9 +96,18 @@ export let rvAttributesService: RvAttributesServiceApi
 export let tStepService: TStepServiceApi
 export let tAttributeService: TAttributeServiceApi
 
+export let useBase: UseBase
 export let useTStep: UseTStep
 export let useTAttribute: UseTAttribute
 export let useStepOptions: UseStepOptions
+
+export let AntCheckbox: FunctionComponent<AntCheckboxProps>
+export let ThemeProvider: FunctionComponent<ThemeProviderProps>
+export let AntColor: FunctionComponent<AntColorProps>
+export let AntNumber: FunctionComponent<AntNumberProps>
+export let AntSelect: FunctionComponent<AntSelectProps>
+export let AntSwitch: FunctionComponent<AntSwitchProps>
+export let AntEmpty: FunctionComponent<AntEmptyProps>
 
 export let Anchor: FunctionComponent<AnchorProps>
 export let DrawerLoading: FunctionComponent<SpanProps>
@@ -80,13 +118,6 @@ export let ScrollBar: FunctionComponent<ScrollBarProps>
 export let Dialog: FunctionComponent<DialogProps>
 export let MaterialSymbol: FunctionComponent<MaterialSymbolProps>
 
-export let AntCheckbox: FunctionComponent<AntCheckboxProps>
-export let ThemeProvider: FunctionComponent<ThemeProviderProps>
-export let AntColor: FunctionComponent<AntColorProps>
-export let AntNumber: FunctionComponent<AntNumberProps>
-export let AntSelect: FunctionComponent<AntSelectProps>
-export let AntSwitch: FunctionComponent<AntSwitchProps>
-export let AntEmpty: FunctionComponent<AntEmptyProps>
 
 export let RsdButton: FunctionComponent<RsdButtonProps>
 export let RsdCheckableButton: FunctionComponent<RsdCheckableButtonProps>
@@ -104,11 +135,11 @@ export let RsdSwitch: FunctionComponent<RsdSwitchProps>
 export let RsdTextarea: FunctionComponent<RsdInputProps>
 export let RsdTitle: FunctionComponent<RsdTitleProps>
 
-export let rss: { [key: string]: string }
-export let checkableButtonStyles: { [key: string]: string }
-
 export let FlexGrow: FunctionComponent<FlexGrowProps>
 export let MainPortal: FunctionComponent<MainPortalProps>
+
+export let rss: { [key: string]: string }
+export let checkableButtonStyles: { [key: string]: string }
 
 export let materialSymbol: FunctionComponent<any>
 export let sleep: FunctionComponent<any>
@@ -118,12 +149,12 @@ export function loadApi() {
   const api = (window as any).ofpConnector.getOfpApi() as OfpApi
 
   rvLocationAttribute = api.services.attributes.rvLocationAttribute
+  rvLabelAttribute = api.services.attributes.rvLabelAttribute
+  rvLoopAttribute = api.services.attributes.rvLoopAttribute
 
   spaceService = api.services.main.spaceService
   statusService = api.services.main.statusService
   pluginService = api.services.main.pluginService
-
-  rsSelectionService = api.services.engine.operate.rsSelectionService
 
   internationalizationService = api.services.main.internationalizationService
   meetingService = api.services.main.meetingService
@@ -136,6 +167,21 @@ export function loadApi() {
   firstLoadService = api.services.main.firstLoadService
   dialogService = api.services.main.dialogService
   nativeEventService = api.services.main.nativeEventService
+  firstLoadModelService = api.services.main.firstLoadModelService
+
+  cameraConfigurationAnimation = api.services.engine.animation.cameraConfigurationAnimation
+  cameraLocationAnimation = api.services.engine.animation.cameraLocationAnimation
+  fogAnimation = api.services.engine.animation.fogAnimation
+  groundAnimation = api.services.engine.animation.groundAnimation
+  lightAnimation = api.services.engine.animation.lightAnimation
+  shadowAnimation = api.services.engine.animation.shadowAnimation
+  skyboxAnimation = api.services.engine.animation.skyboxAnimation
+
+  rsSelectionService = api.services.engine.operate.rsSelectionService
+
+  rsNodeService = api.services.engine.render.rsNodeService
+  rsModelService = api.services.engine.render.rsModelService
+  rsEnvironmentService = api.services.engine.render.rsEnvironmentService
 
   syncService = api.services.sync.syncService
   historyService = api.services.sync.historyService
@@ -148,12 +194,18 @@ export function loadApi() {
   tStepService = api.services.target.tStepService
   tAttributeService = api.services.target.tAttributeService
 
+  useBase = api.hooks.useBase
   useTStep = api.hooks.useTStep
   useTAttribute = api.hooks.useTAttribute
   useStepOptions = api.hooks.useStepOptions
 
-  rss = api.styles.rss
-  checkableButtonStyles = api.styles.checkableButtonStyles
+  ThemeProvider = api.components.ant.ThemeProvider
+  AntCheckbox = api.components.ant.AntCheckbox
+  AntNumber = api.components.ant.AntNumber
+  AntColor = api.components.ant.AntColor
+  AntSelect = api.components.ant.AntSelect
+  AntSwitch = api.components.ant.AntSwitch
+  AntEmpty = api.components.ant.AntEmpty
 
   Anchor = api.components.normal.Anchor
   DrawerLoading = api.components.normal.DrawerLoading
@@ -163,14 +215,6 @@ export function loadApi() {
   ScrollBar = api.components.normal.ScrollBar
   Dialog = api.components.normal.Dialog
   MaterialSymbol = api.components.normal.MaterialSymbol
-
-  ThemeProvider = api.components.ant.ThemeProvider
-  AntCheckbox = api.components.ant.AntCheckbox
-  AntNumber = api.components.ant.AntNumber
-  AntColor = api.components.ant.AntColor
-  AntSelect = api.components.ant.AntSelect
-  AntSwitch = api.components.ant.AntSwitch
-  AntEmpty = api.components.ant.AntEmpty
 
   RsdButton = api.components.rsd.RsdButton
   RsdCheckableButton = api.components.rsd.RsdCheckableButton
@@ -190,6 +234,9 @@ export function loadApi() {
 
   FlexGrow = api.components.dev.FlexGrow
   MainPortal = api.components.dev.MainPortal
+
+  rss = api.styles.rss
+  checkableButtonStyles = api.styles.checkableButtonStyles
 
   materialSymbol = api.utils.materialSymbol
   sleep = api.utils.sleep
