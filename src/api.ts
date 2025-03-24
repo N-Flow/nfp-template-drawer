@@ -48,6 +48,7 @@ import {
   UseBase,
   EasyPropertyAnimationApi,
   RsServiceApi,
+  RvModelServiceApi,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -97,6 +98,7 @@ export let rvGlobalService: RvGlobalServiceApi
 export let rvStepService: RvStepServiceApi
 export let rvFileService: RvFileServiceApi
 export let rvResourceService: RvResourceServiceApi
+export let rvModelService: RvModelServiceApi
 export let rvAttributesService: RvAttributesServiceApi
 
 export let tStepService: TStepServiceApi
@@ -199,6 +201,7 @@ export function loadApi() {
   rvStepService = api.services.sync.rvStepService
   rvFileService = api.services.sync.rvFileService
   rvResourceService = api.services.sync.rvResourceService
+  rvModelService = api.services.sync.rvModelService
   rvAttributesService = api.services.sync.rvAttributesService
 
   tStepService = api.services.target.tStepService
