@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "",
   "plugin": {
-    "id": "",
+    "id": "template-drawer",
     "type": "DRAWER",
     "theme": "BLUE",
     "port": {
