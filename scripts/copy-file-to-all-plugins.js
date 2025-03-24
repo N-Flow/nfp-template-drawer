@@ -30,7 +30,7 @@ const pluginsNeedUpdate = []
 
 fs.readdirSync(pluginsPath).forEach(file => {
   const fullPath = path.join(pluginsPath, file)
-  if (fs.statSync(fullPath).isDirectory() && file.startsWith('ofp-') && file !== 'ofp-template-drawer') {
+  if (fs.statSync(fullPath).isDirectory() && file.startsWith('ofp-') && fullPath !== currentPath) {
     pluginsList.push(fullPath)
   }
 })
