@@ -2,13 +2,15 @@ const path = require('path')
 const webpack = require('webpack')
 const WebSocket = require('ws')
 
+const packageJson = require('./package.json');
+
 class CompilationNotifierPlugin {
   apply(compiler) {
     let wss
 
     compiler.hooks.compile.tap('CompilationNotifierPlugin', () => {
       if (wss) return;
-      wss = new WebSocket.Server({ port: 8081 })
+      wss = new WebSocket.Server({ port: packageJson.plugin.port.debug })
       console.log('\nCompilation NotifierPlugin Websocket Started.\n')
     })
 
@@ -96,7 +98,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    port: 8080,
+    port: packageJson.plugin.port.dev,
     hot: false,
     watchFiles: ['src/**/*'],
     liveReload: false,

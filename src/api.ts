@@ -46,6 +46,8 @@ import {
   RsModelServiceApi,
   RsEnvironmentServiceApi,
   UseBase,
+  EasyPropertyAnimationApi,
+  RsServiceApi,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -78,11 +80,15 @@ export let lightAnimation: LightAnimationApi
 export let shadowAnimation: ShadowAnimationApi
 export let skyboxAnimation: SkyboxAnimationApi
 
+export let easyPropertyAnimation: EasyPropertyAnimationApi
+
 export let rsSelectionService: RsSelectionServiceApi
 
 export let rsNodeService: RsNodeServiceApi
 export let rsModelService: RsModelServiceApi
 export let rsEnvironmentService: RsEnvironmentServiceApi
+
+export let rsService: RsServiceApi
 
 export let syncService: SyncServiceApi
 export let historyService: HistoryServiceApi
@@ -177,11 +183,15 @@ export function loadApi() {
   shadowAnimation = api.services.engine.animation.shadowAnimation
   skyboxAnimation = api.services.engine.animation.skyboxAnimation
 
+  easyPropertyAnimation = api.services.engine.animation.easyPropertyAnimation
+
   rsSelectionService = api.services.engine.operate.rsSelectionService
 
   rsNodeService = api.services.engine.render.rsNodeService
   rsModelService = api.services.engine.render.rsModelService
   rsEnvironmentService = api.services.engine.render.rsEnvironmentService
+
+  rsService = api.services.engine.rsService
 
   syncService = api.services.sync.syncService
   historyService = api.services.sync.historyService

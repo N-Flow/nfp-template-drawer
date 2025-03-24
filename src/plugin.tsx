@@ -1,37 +1,22 @@
+import packageJson from '../package.json'
 import {IconPluginPosition, PluginType, ThemeColor} from 'oflow-interface'
 import {DrawerPlugin} from "oflow-interface";
 import {loadApi} from "./api";
 import React from 'react';
 import Drawer from "./drawer/drawer";
-import {proxy} from "valtio";
 
 
 export default class Plugin implements DrawerPlugin {
 
-  id: string = ''
-  name: string = ''
-  version: string = '0.0.1'
-  description = ''
+  id: string = packageJson.plugin.id
+  name: string = packageJson.name
+  version: string = packageJson.version
+  description = packageJson.description
 
-  type: PluginType = PluginType.DRAWER
-  theme: ThemeColor = ThemeColor.BLUE
+  type: PluginType = packageJson.plugin.type as PluginType
+  theme: ThemeColor = packageJson.plugin.theme as ThemeColor
 
-  data = proxy({
-
-  })
-
-  async onInstall() {
-    loadApi()
-  }
-  async onEnable() {
-
-  }
-  async onDisable() {
-
-  }
-  async onUninstall() {
-
-  }
+  loadApi = loadApi
 
   weight = 50
   title = ''
@@ -39,7 +24,7 @@ export default class Plugin implements DrawerPlugin {
   position = IconPluginPosition.TOP_LEFT
   group = ''
   label = ''
-  color = ThemeColor.BLUE
+  color = packageJson.plugin.theme as ThemeColor
   open = false
 
   icon = () => {

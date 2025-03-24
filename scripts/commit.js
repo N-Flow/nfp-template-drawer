@@ -5,8 +5,10 @@ const { execSync } = require('child_process')
 const path = require('path')
 const fs = require('fs')
 
+const packageJson = require('../package.json');
+
 const PROJECT_PATH = path.resolve(__dirname, '../')
-const ACTIONS_URL = 'https://github.com/O-FLOW/ofp-template-drawer/actions'
+const ACTIONS_URL = 'https://github.com/O-FLOW/' + packageJson.name + '/actions'
 
 function checkPackageJson(projectPath) {
   if (!fs.existsSync(path.join(projectPath, 'package.json'))) {
