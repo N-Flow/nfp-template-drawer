@@ -49,6 +49,7 @@ import {
   EasyPropertyAnimationApi,
   RsServiceApi,
   RvModelServiceApi,
+  MaterialSymbolOptions,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -149,8 +150,8 @@ export let MainPortal: FunctionComponent<MainPortalProps>
 export let rss: { [key: string]: string }
 export let checkableButtonStyles: { [key: string]: string }
 
-export let materialSymbol: FunctionComponent<any>
-export let sleep: FunctionComponent<any>
+export let materialSymbol: (icon: string, options?: MaterialSymbolOptions) => FunctionComponent<any>
+export let sleep: (time: number) => FunctionComponent<any>
 
 
 export function loadApi() {
