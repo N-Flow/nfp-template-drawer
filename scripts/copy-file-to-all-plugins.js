@@ -145,7 +145,7 @@ function updateVersion(projectPath, newVersion) {
   if (fs.existsSync(packageLockPath)) {
     const packageLockJson = JSON.parse(fs.readFileSync(packageLockPath, 'utf8'))
     packageLockJson.version = newVersion
-    fs.writeFileSync(packageLockPath, JSON.stringify(packageJson, null, 2))
+    fs.writeFileSync(packageLockPath, JSON.stringify(packageLockJson, null, 2))
   }
 }
 
