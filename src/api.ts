@@ -50,12 +50,14 @@ import {
   RsServiceApi,
   RvModelServiceApi,
   MaterialSymbolOptions,
+  RvNativeAttributeApi,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
 export let rvLocationAttribute: RvLocationAttributeApi
 export let rvLabelAttribute: RvLabelAttributeApi
 export let rvLoopAttribute: RvLoopAttributeApi
+export let rvNativeAttribute: RvNativeAttributeApi
 
 export let spaceService: SpaceServiceApi
 export let statusService: StatusServiceApi
@@ -160,6 +162,7 @@ export function loadApi() {
   rvLocationAttribute = api.services.attributes.rvLocationAttribute
   rvLabelAttribute = api.services.attributes.rvLabelAttribute
   rvLoopAttribute = api.services.attributes.rvLoopAttribute
+  rvNativeAttribute = api.services.attributes.rvNativeAttribute
 
   spaceService = api.services.main.spaceService
   statusService = api.services.main.statusService
