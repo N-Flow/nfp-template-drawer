@@ -154,7 +154,6 @@ export let FlexGrow: FunctionComponent<FlexGrowProps>
 export let MainPortal: FunctionComponent<MainPortalProps>
 
 export let rss: { [key: string]: string }
-export let checkableButtonStyles: { [key: string]: string }
 
 export let materialSymbol: (icon: string, options?: MaterialSymbolOptions) => FunctionComponent<any>
 export let sleep: (time: number) => FunctionComponent<any>
@@ -259,7 +258,6 @@ export function loadApi() {
   MainPortal = api.components.dev.MainPortal
 
   rss = api.styles.rss
-  checkableButtonStyles = api.styles.checkableButtonStyles
 
   materialSymbol = api.utils.materialSymbol
   sleep = api.utils.sleep
