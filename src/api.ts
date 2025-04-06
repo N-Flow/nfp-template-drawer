@@ -53,6 +53,7 @@ import {
   RvNativeAttributeApi,
   RvCodeAttributeApi,
   RvMaterialAttributeApi,
+  ThemeServiceApi,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -66,6 +67,7 @@ export let rvMaterialAttribute: RvMaterialAttributeApi
 export let spaceService: SpaceServiceApi
 export let statusService: StatusServiceApi
 export let pluginService: PluginServiceApi
+export let themeService: ThemeServiceApi
 
 export let internationalizationService: InternationalizationServiceApi
 export let userService: UserServiceApi
@@ -172,6 +174,7 @@ export function loadApi() {
   spaceService = api.services.main.spaceService
   statusService = api.services.main.statusService
   pluginService = api.services.main.pluginService
+  themeService = api.services.main.themeService
 
   internationalizationService = api.services.main.internationalizationService
   meetingService = api.services.main.meetingService
