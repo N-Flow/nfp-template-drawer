@@ -4,7 +4,7 @@ import {
   RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdSelectProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdCheckableButtonProps,
   SpanProps,
   AnchorProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps,
-  StatusServiceApi, LocalFileServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
+  StatusServiceApi, LocalDataServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
   ThemeProviderProps,
   ModulePreloaderApi,
   SyncServiceApi,
@@ -74,7 +74,7 @@ export let userService: UserServiceApi
 export let meetingService: MeetingServiceApi
 export let modulePreloader: ModulePreloaderApi
 export let messageService: MessageServiceApi
-export let localFileService: LocalFileServiceApi
+export let localDataService: LocalDataServiceApi
 export let ossUploadService: OssUploadServiceApi
 export let resourceService: ResourceServiceApi
 export let firstLoadService: FirstLoadServiceApi
@@ -181,7 +181,7 @@ export function loadApi() {
   userService = api.services.main.userService
   modulePreloader = api.services.main.modulePreloader
   messageService = api.services.main.messageService
-  localFileService = api.services.main.localFileService
+  localDataService = api.services.main.localDataService
   ossUploadService = api.services.main.ossUploadService
   resourceService = api.services.main.resourceService
   firstLoadService = api.services.main.firstLoadService
