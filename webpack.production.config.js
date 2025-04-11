@@ -26,6 +26,8 @@ module.exports = {
     'rhine-var': 'RhineVar',
     'rhine-var/react': 'RhineVarReact',
     'antd': 'AntD',
+    'file-type': 'FileType',
+    'mime': 'Mime',
   },
   module: {
     rules: [

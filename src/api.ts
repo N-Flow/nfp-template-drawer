@@ -54,6 +54,7 @@ import {
   RvCodeAttributeApi,
   RvMaterialAttributeApi,
   ThemeServiceApi,
+  ResourcePreviewProps,
 } from "oflow-interface";
 import type { FunctionComponent } from "react";
 
@@ -134,6 +135,7 @@ export let UploadButtonAndList: FunctionComponent<UploadButtonAndListProps>
 export let ScrollBar: FunctionComponent<ScrollBarProps>
 export let Dialog: FunctionComponent<DialogProps>
 export let MaterialSymbol: FunctionComponent<MaterialSymbolProps>
+export let ResourcePreview: FunctionComponent<ResourcePreviewProps>
 
 
 export let RsdButton: FunctionComponent<RsdButtonProps>
@@ -240,6 +242,7 @@ export function loadApi() {
   ScrollBar = api.components.normal.ScrollBar
   Dialog = api.components.normal.Dialog
   MaterialSymbol = api.components.normal.MaterialSymbol
+  ResourcePreview = api.components.normal.ResourcePreview
 
   RsdButton = api.components.rsd.RsdButton
   RsdCheckableButton = api.components.rsd.RsdCheckableButton

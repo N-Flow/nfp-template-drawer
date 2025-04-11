@@ -27,6 +27,8 @@
     "@hocuspocus/provider": "^2.15.2",
     "antd": "5.24.1",
     "clsx": "2.1.1",
+    "file-type": "^20.4.1",
+    "mime": "^4.0.7",
     "react": "19.1.0-canary-ff628334-20250205",
     "react-dom": "19.1.0-canary-ff628334-20250205",
     "rhine-var": "0.10.5",

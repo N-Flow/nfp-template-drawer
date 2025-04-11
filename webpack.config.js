@@ -48,6 +48,8 @@ module.exports = {
     'valtio': 'Valtio',
     'rhine-var': 'RhineVar',
     'antd': 'AntD',
+    'file-type': 'FileType',
+    'mime': 'Mime',
   },
   module: {
     rules: [
