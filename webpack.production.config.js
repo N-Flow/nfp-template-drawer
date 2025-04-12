@@ -28,6 +28,7 @@ module.exports = {
     'antd': 'AntD',
     'file-type': 'FileType',
     'mime': 'Mime',
+    'brotli-wasm': 'BrotliWasm',
   },
   module: {
     rules: [
