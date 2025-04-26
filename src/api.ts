@@ -18,7 +18,7 @@ import {
   RvFileServiceApi,
   TStepServiceApi,
   UseTStep,
-  UseTAttribute,
+  UseTAttributes,
   UseStepOptions,
   DialogProps,
   AntEmptyProps,
@@ -28,7 +28,7 @@ import {
   FirstLoadServiceApi,
   NativeEventServiceApi,
   RvResourceServiceApi,
-  TAttributeServiceApi,
+  TAttributesServiceApi,
   RsSelectionServiceApi,
   RvLocationAttributeApi,
   RvAttributesServiceApi,
@@ -112,11 +112,11 @@ export let rvModelService: RvModelServiceApi
 export let rvAttributesService: RvAttributesServiceApi
 
 export let tStepService: TStepServiceApi
-export let tAttributeService: TAttributeServiceApi
+export let tAttributesService: TAttributesServiceApi
 
 export let useBase: UseBase
 export let useTStep: UseTStep
-export let useTAttribute: UseTAttribute
+export let useTAttributes: UseTAttributes
 export let useStepOptions: UseStepOptions
 
 export let AntCheckbox: FunctionComponent<AntCheckboxProps>
@@ -219,11 +219,11 @@ export function loadApi() {
   rvAttributesService = api.services.sync.rvAttributesService
 
   tStepService = api.services.target.tStepService
-  tAttributeService = api.services.target.tAttributeService
+  tAttributesService = api.services.target.tAttributesService
 
   useBase = api.hooks.useBase
   useTStep = api.hooks.useTStep
-  useTAttribute = api.hooks.useTAttribute
+  useTAttributes = api.hooks.useTAttributes
   useStepOptions = api.hooks.useStepOptions
 
   ThemeProvider = api.components.ant.ThemeProvider
