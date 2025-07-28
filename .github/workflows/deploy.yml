@@ -23,9 +23,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
 
-      # 3. 安装 OSS 工具
+      # 3. 设置 Bun 环境
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # 4. 安装 OSS 工具
       - name: Install OSS Utils
         run: |
           cd ../
@@ -36,7 +41,7 @@ jobs:
 
       # 5. 安装依赖 & 构建
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       # 6. 拉取 oflow-interface 仓库
       - name: Clone oflow-interface
@@ -48,21 +53,21 @@ jobs:
       - name: Build oflow-interface
         run: |
           cd ../oflow-interface
-          yarn install --frozen-lockfile
-          yarn build
-          yarn link
+          bun install --frozen-lockfile
+          bun run build
+          bun link
 
       # 8. 链接 oflow-interface 到 oflow-space 仓库
       - name: Link oflow-interface to oflow-space
-        run: yarn link oflow-interface
+        run: bun link oflow-interface
 
       # 9. 执行全部单元测试
       - name: Run Unit Tests
-        run: yarn test
+        run: bun run test
 
       # 10. 构建静态编译并导出
       - name: Build Project
-        run: yarn build
+        run: bun run build
 
       # 11. 读取 package.json 中的 Plugin ID 及 Version
       - name: Extract Plugin ID and Version
