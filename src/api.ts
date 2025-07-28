@@ -123,7 +123,7 @@ export let AntCheckbox: FunctionComponent<AntCheckboxProps>
 export let ThemeProvider: FunctionComponent<ThemeProviderProps>
 export let AntColor: FunctionComponent<AntColorProps>
 export let AntNumber: FunctionComponent<AntNumberProps>
-export let AntSelect: FunctionComponent<AntSelectProps>
+export let AntSelect: FunctionComponent<AntSelectProps<unknown>>
 export let AntSwitch: FunctionComponent<AntSwitchProps>
 export let AntEmpty: FunctionComponent<AntEmptyProps>
 
@@ -157,7 +157,7 @@ export let RsdTitle: FunctionComponent<RsdTitleProps>
 export let FlexGrow: FunctionComponent<FlexGrowProps>
 export let MainPortal: FunctionComponent<MainPortalProps>
 
-export let rss: { [key: string]: string }
+export let rss: Record<string, string>
 
 export let materialSymbol: (icon: string, options?: MaterialSymbolOptions) => FunctionComponent<any>
 export let sleep: (time: number) => FunctionComponent<any>
