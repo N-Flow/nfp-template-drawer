@@ -1,6 +1,6 @@
 {
   "name": "ofp-template-drawer",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "",
   "plugin": {
     "id": "template-drawer",
@@ -17,7 +17,12 @@
     "dev": "webpack serve --config webpack.config.js",
     "test": "echo All tests passed.",
     "build": "webpack --config webpack.production.config.js",
-    "commit": "node scripts/commit.js"
+    "commit": "node scripts/commit.js",
+    "type:check": "tsc --noEmit",
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "O FLow",
@@ -26,10 +31,7 @@
     "@babylonjs/core": "7.41.1",
     "@hocuspocus/provider": "^2.15.2",
     "antd": "5.24.1",
-    "brotli-wasm": "^3.0.1",
     "clsx": "2.1.1",
-    "file-type": "^20.4.1",
-    "mime": "^4.0.7",
     "react": "19.1.0-canary-ff628334-20250205",
     "react-dom": "19.1.0-canary-ff628334-20250205",
     "rhine-var": "0.10.5",
@@ -38,8 +40,18 @@
     "yjs": "^13.6.23"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.9",
+    "@eslint/css": "^0.8.1",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/json": "^0.12.0",
+    "@eslint/markdown": "^6.4.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint-config-next": "^15.3.3",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import-x": "^4.15.0",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "mini-css-extract-plugin": "^2.9.2",
@@ -48,6 +60,8 @@
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.6.2",
+    "jiti": "^2.5.1",
+    "typescript-eslint": "^8.33.1",
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
