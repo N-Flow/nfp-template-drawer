@@ -71,8 +71,8 @@ jobs:
           OSS_REGION: ${{ secrets.OSS_REGION }}
           OSS_BUCKET: ${{ secrets.OSS_BUCKET }}
         run: |
-          echo "::notice::Uploading to oss://${OSS_BUCKET}/oflow/plugins/${PLUGIN_ID}/v${VERSION}/"
-          ossutil cp -r ./dist/ oss://${OSS_BUCKET}/oflow/plugins/${PLUGIN_ID}/v${VERSION}/ --force
+          echo "::notice::Uploading to oss://${OSS_BUCKET}/nflow/plugins/${PLUGIN_ID}/v${VERSION}/"
+          ossutil cp -r ./dist/ oss://${OSS_BUCKET}/nflow/plugins/${PLUGIN_ID}/v${VERSION}/ --force
           echo ""
-          echo "::notice::Uploading to oss://${OSS_BUCKET}/oflow/plugins/${PLUGIN_ID}/latest/"
-          ossutil cp -r ./dist/ oss://${OSS_BUCKET}/oflow/plugins/${PLUGIN_ID}/latest/ --force
+          echo "::notice::Uploading to oss://${OSS_BUCKET}/nflow/plugins/${PLUGIN_ID}/latest/"
+          ossutil cp -r ./dist/ oss://${OSS_BUCKET}/nflow/plugins/${PLUGIN_ID}/latest/ --force
