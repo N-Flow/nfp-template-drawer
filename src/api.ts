@@ -1,5 +1,5 @@
 import {
-  OfpApi, SpaceServiceApi,
+  NfpApi, SpaceServiceApi,
   AntCheckboxProps, AntColorProps, AntNumberProps, AntSelectProps, AntSwitchProps,
   RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdSelectProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdCheckableButtonProps,
   SpanProps,
@@ -55,7 +55,8 @@ import {
   RvMaterialAttributeApi,
   ThemeServiceApi,
   ResourcePreviewProps,
-} from "oflow-interface";
+} from "next-flow-interface";
+
 import type { FunctionComponent } from "react";
 
 export let rvLocationAttribute: RvLocationAttributeApi
@@ -164,7 +165,7 @@ export let sleep: (time: number) => FunctionComponent<any>
 
 
 export function loadApi() {
-  const api = (window as any).ofpConnector.getOfpApi() as OfpApi
+  const api = (window as any).nfpConnector.getNfpApi() as NfpApi
 
   rvLocationAttribute = api.services.attributes.rvLocationAttribute
   rvLabelAttribute = api.services.attributes.rvLabelAttribute

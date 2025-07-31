@@ -1,8 +1,9 @@
-import packageJson from '../package.json'
-import {IconPluginPosition, PluginType, ThemeColor} from 'oflow-interface'
-import {DrawerPlugin} from "oflow-interface";
-import {loadApi} from "./api";
+import {IconPluginPosition, PluginType, ThemeColor,DrawerPlugin} from 'next-flow-interface'
 import React from 'react';
+
+import packageJson from '../package.json'
+
+import {loadApi} from "./api";
 import Drawer from "./drawer/drawer";
 
 

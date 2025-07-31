@@ -1,4 +1,5 @@
 const path = require('path')
+
 const webpack = require('webpack')
 const WebSocket = require('ws')
 
@@ -41,7 +42,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   externals: {
-    'oflow-interface': 'OFlowInterface',
+    'next-flow-interface': 'NextFlowInterface',
     'react': 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',

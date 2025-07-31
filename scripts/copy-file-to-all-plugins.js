@@ -1,6 +1,6 @@
-const path = require('path')
 const { execSync } = require('child_process')
 const fs = require('fs')
+const path = require('path')
 
 
 const GENERAL_FILE_LIST = [
@@ -17,7 +17,7 @@ const GENERAL_FILE_LIST = [
   'webpack.production.config.js',
 ]
 
-const COMMIT_MESSAGE = 'chore: sync files from ofp-template'
+const COMMIT_MESSAGE = 'chore: sync files from nfp-template'
 
 
 const pluginsPath = path.resolve(__dirname, '../../')
@@ -30,7 +30,7 @@ const pluginsNeedUpdate = []
 
 fs.readdirSync(pluginsPath).forEach(file => {
   const fullPath = path.join(pluginsPath, file)
-  if (fs.statSync(fullPath).isDirectory() && file.startsWith('ofp-') && fullPath !== currentPath) {
+  if (fs.statSync(fullPath).isDirectory() && file.startsWith('nfp-') && fullPath !== currentPath) {
     pluginsList.push(fullPath)
   }
 })

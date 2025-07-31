@@ -1,8 +1,10 @@
-import React from "react";
-import styles from "./drawer.module.sass"
-import {rss, ScrollBar, ThemeProvider} from "../api";
 import clsx from "clsx";
-import {ThemeColor} from "oflow-interface";
+import {ThemeColor} from "next-flow-interface";
+import React from "react";
+
+import {rss, ScrollBar, ThemeProvider} from "../api";
+
+import styles from "./drawer.module.sass"
 
 export default function Drawer() {
 

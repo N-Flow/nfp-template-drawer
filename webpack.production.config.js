@@ -1,6 +1,7 @@
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const packageJson = require('./package.json');
@@ -18,7 +19,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css'],
   },
   externals: {
-    'oflow-interface': 'OFlowInterface',
+    'next-flow-interface': 'NextFlowInterface',
     'react': 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',
