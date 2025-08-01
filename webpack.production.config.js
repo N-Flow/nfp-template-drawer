@@ -1,11 +1,11 @@
 const path = require('path')
 
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
-const packageJson = require('./package.json');
-const packageName = packageJson.name;
+const packageJson = require('./package.json')
+const packageName = packageJson.name
 
 module.exports = {
   mode: 'production',
@@ -20,15 +20,15 @@ module.exports = {
   },
   externals: {
     'next-flow-interface': 'NextFlowInterface',
-    'react': 'React',
+    react: 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',
-    'valtio': 'Valtio',
+    valtio: 'Valtio',
     'rhine-var': 'RhineVar',
     'rhine-var/react': 'RhineVarReact',
-    'antd': 'AntD',
+    antd: 'AntD',
     'file-type': 'FileType',
-    'mime': 'Mime',
+    mime: 'Mime',
     'brotli-wasm': 'BrotliWasm',
   },
   module: {
@@ -44,7 +44,7 @@ module.exports = {
                 namedExport: false,
                 localIdentName: '[hash:base64:8]',
                 localIdentHashSalt: packageName,
-              }
+              },
             },
           },
           'sass-loader',
@@ -85,9 +85,6 @@ module.exports = {
   ],
   optimization: {
     minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new TerserPlugin(),
-    ],
-  }
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+  },
 }

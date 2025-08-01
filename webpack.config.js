@@ -3,20 +3,20 @@ const path = require('path')
 const webpack = require('webpack')
 const WebSocket = require('ws')
 
-const packageJson = require('./package.json');
+const packageJson = require('./package.json')
 
 class CompilationNotifierPlugin {
   apply(compiler) {
     let wss
 
     compiler.hooks.compile.tap('CompilationNotifierPlugin', () => {
-      if (wss) return;
+      if (wss) return
       wss = new WebSocket.Server({ port: packageJson.plugin.port.debug })
       console.log('\nCompilation NotifierPlugin Websocket Started.\n')
     })
 
     compiler.hooks.done.tap('CompilationNotifierPlugin', () => {
-      if (!wss) return;
+      if (!wss) return
       setTimeout(() => {
         let message = 'Compiled at: ' + Date.now()
         console.log('\n' + message + '\n')
@@ -43,14 +43,14 @@ module.exports = {
   },
   externals: {
     'next-flow-interface': 'NextFlowInterface',
-    'react': 'React',
+    react: 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',
-    'valtio': 'Valtio',
+    valtio: 'Valtio',
     'rhine-var': 'RhineVar',
-    'antd': 'AntD',
+    antd: 'AntD',
     'file-type': 'FileType',
-    'mime': 'Mime',
+    mime: 'Mime',
     'brotli-wasm': 'BrotliWasm',
   },
   module: {
@@ -65,7 +65,7 @@ module.exports = {
               modules: {
                 namedExport: false,
                 localIdentName: '[path][name]_[local]__[hash:base64:8]',
-              }
+              },
             },
           },
           'sass-loader',
@@ -112,11 +112,8 @@ module.exports = {
       overlay: {
         warnings: false,
         errors: true,
-      }
+      },
     },
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new CompilationNotifierPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new CompilationNotifierPlugin()],
 }

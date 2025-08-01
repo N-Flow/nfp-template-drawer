@@ -1,10 +1,36 @@
 import {
-  NfpApi, SpaceServiceApi,
-  AntCheckboxProps, AntColorProps, AntNumberProps, AntSelectProps, AntSwitchProps,
-  RsdButtonProps, RsdCheckboxProps, RsdColorProps, RsdSelectProps, RsdFileSelectProps, RsdInputProps, RsdMentionsProps, RsdNoneProps, RsdNumberProps, RsdNumberListProps, RsdSwitchProps, RsdTitleProps,RsdCheckableButtonProps,
+  NfpApi,
+  SpaceServiceApi,
+  AntCheckboxProps,
+  AntColorProps,
+  AntNumberProps,
+  AntSelectProps,
+  AntSwitchProps,
+  RsdButtonProps,
+  RsdCheckboxProps,
+  RsdColorProps,
+  RsdSelectProps,
+  RsdFileSelectProps,
+  RsdInputProps,
+  RsdMentionsProps,
+  RsdNoneProps,
+  RsdNumberProps,
+  RsdNumberListProps,
+  RsdSwitchProps,
+  RsdTitleProps,
+  RsdCheckableButtonProps,
   SpanProps,
-  AnchorProps, FileProgressBarProps, ProgressBarProps, UploadButtonAndListProps,ScrollBarProps,
-  StatusServiceApi, LocalDataServiceApi, InternationalizationServiceApi, MeetingServiceApi, PluginServiceApi, UserServiceApi,
+  AnchorProps,
+  FileProgressBarProps,
+  ProgressBarProps,
+  UploadButtonAndListProps,
+  ScrollBarProps,
+  StatusServiceApi,
+  LocalDataServiceApi,
+  InternationalizationServiceApi,
+  MeetingServiceApi,
+  PluginServiceApi,
+  UserServiceApi,
   ThemeProviderProps,
   ModulePreloaderApi,
   SyncServiceApi,
@@ -55,9 +81,10 @@ import {
   RvMaterialAttributeApi,
   ThemeServiceApi,
   ResourcePreviewProps,
-} from "next-flow-interface";
+  RsSeparateServiceApi,
+} from 'next-flow-interface'
 
-import type { FunctionComponent } from "react";
+import type { FunctionComponent } from 'react'
 
 export let rvLocationAttribute: RvLocationAttributeApi
 export let rvLabelAttribute: RvLabelAttributeApi
@@ -99,6 +126,7 @@ export let rsSelectionService: RsSelectionServiceApi
 export let rsNodeService: RsNodeServiceApi
 export let rsModelService: RsModelServiceApi
 export let rsEnvironmentService: RsEnvironmentServiceApi
+export let rsSeparateService: RsSeparateServiceApi
 
 export let rsService: RsServiceApi
 
@@ -138,7 +166,6 @@ export let Dialog: FunctionComponent<DialogProps>
 export let MaterialSymbol: FunctionComponent<MaterialSymbolProps>
 export let ResourcePreview: FunctionComponent<ResourcePreviewProps>
 
-
 export let RsdButton: FunctionComponent<RsdButtonProps>
 export let RsdCheckableButton: FunctionComponent<RsdCheckableButtonProps>
 export let RsdCheckbox: FunctionComponent<RsdCheckboxProps>
@@ -161,8 +188,7 @@ export let MainPortal: FunctionComponent<MainPortalProps>
 export let rss: Record<string, string>
 
 export let materialSymbol: (icon: string, options?: MaterialSymbolOptions) => FunctionComponent<any>
-export let sleep: (time: number) => FunctionComponent<any>
-
+export let sleep: (time: number) => Promise<void>
 
 export function loadApi() {
   const api = (window as any).nfpConnector.getNfpApi() as NfpApi
@@ -207,6 +233,7 @@ export function loadApi() {
   rsNodeService = api.services.engine.render.rsNodeService
   rsModelService = api.services.engine.render.rsModelService
   rsEnvironmentService = api.services.engine.render.rsEnvironmentService
+  rsSeparateService = api.services.engine.render.rsSeparateService
 
   rsService = api.services.engine.rsService
 
