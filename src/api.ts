@@ -82,9 +82,27 @@ import {
   ThemeServiceApi,
   ResourcePreviewProps,
   RsSeparateServiceApi,
+  RsAudioServiceApi,
+  RsTextureServiceApi,
 } from 'next-flow-interface'
 
 import type { FunctionComponent } from 'react'
+import PluginContainerServiceApi
+  from "../../next-flow-interface/src/api/service/main/plugin/plugin-container-service-api";
+import sceneServiceApi from "../../next-flow-interface/src/api/service/main/scene/scene-service-api";
+import RsLoopAnimationManagerApi
+  from "../../next-flow-interface/src/api/service/engine/animation/factory/loop/rs-loop-animation-manager-api";
+import RsEnvironmentApi from "../../next-flow-interface/src/api/service/engine/render/environment/rs-environment-api";
+import RsTransformGroundApi
+  from "../../next-flow-interface/src/api/service/engine/render/environment/rs-transform-ground-api";
+import RsClickApi from "../../next-flow-interface/src/api/service/engine/render/click/rs-click-api";
+import RsLabelServiceApi from "../../next-flow-interface/src/api/service/engine/render/label/rs-label-service-api";
+import RsNodeMaterialManagerApi
+  from "../../next-flow-interface/src/api/service/engine/render/material/node/rs-node-material-manager-api";
+import RsMaterialServiceApi
+  from "../../next-flow-interface/src/api/service/engine/render/material/rs-material-service-api";
+import RvNodeMaterialAnalyzerApi
+  from "../../next-flow-interface/src/api/service/sync/material/node/rv-node-material-analyzer-api";
 
 export let rvLocationAttribute: RvLocationAttributeApi
 export let rvLabelAttribute: RvLabelAttributeApi
@@ -110,6 +128,8 @@ export let firstLoadService: FirstLoadServiceApi
 export let dialogService: DialogServiceApi
 export let nativeEventService: NativeEventServiceApi
 export let firstLoadModelService: FirstLoadModelServiceApi
+export let pluginContainerService: PluginContainerServiceApi
+export let sceneService: sceneServiceApi
 
 export let cameraConfigurationAnimation: CameraConfigurationAnimationApi
 export let cameraLocationAnimation: CameraLocationAnimationApi
@@ -120,12 +140,22 @@ export let shadowAnimation: ShadowAnimationApi
 export let skyboxAnimation: SkyboxAnimationApi
 
 export let easyPropertyAnimation: EasyPropertyAnimationApi
+export let rsLoopAnimationManager: RsLoopAnimationManagerApi
+
+export let rsAudioService: RsAudioServiceApi
 
 export let rsSelectionService: RsSelectionServiceApi
 
 export let rsNodeService: RsNodeServiceApi
 export let rsModelService: RsModelServiceApi
+export let rsEnvironment: RsEnvironmentApi
 export let rsEnvironmentService: RsEnvironmentServiceApi
+export let rsTextureService: RsTextureServiceApi
+export let rsTransformGround: RsTransformGroundApi
+export let rsClick: RsClickApi
+export let rsLabelService: RsLabelServiceApi
+export let rsNodeMaterialManager: RsNodeMaterialManagerApi
+export let rsMaterialService: RsMaterialServiceApi
 export let rsSeparateService: RsSeparateServiceApi
 
 export let rsService: RsServiceApi
@@ -139,6 +169,7 @@ export let rvFileService: RvFileServiceApi
 export let rvResourceService: RvResourceServiceApi
 export let rvModelService: RvModelServiceApi
 export let rvAttributesService: RvAttributesServiceApi
+export let rvNodeMaterialAnalyzer: RvNodeMaterialAnalyzerApi
 
 export let tStepService: TStepServiceApi
 export let tAttributesService: TAttributesServiceApi
@@ -148,8 +179,8 @@ export let useTStep: UseTStep
 export let useTAttributes: UseTAttributes
 export let useStepOptions: UseStepOptions
 
-export let AntCheckbox: FunctionComponent<AntCheckboxProps>
 export let ThemeProvider: FunctionComponent<ThemeProviderProps>
+export let AntCheckbox: FunctionComponent<AntCheckboxProps>
 export let AntColor: FunctionComponent<AntColorProps>
 export let AntNumber: FunctionComponent<AntNumberProps>
 export let AntSelect: FunctionComponent<AntSelectProps<unknown>>
@@ -217,6 +248,8 @@ export function loadApi() {
   dialogService = api.services.main.dialogService
   nativeEventService = api.services.main.nativeEventService
   firstLoadModelService = api.services.main.firstLoadModelService
+  pluginContainerService = api.services.main.pluginContainerService
+  sceneService = api.services.main.sceneService
 
   cameraConfigurationAnimation = api.services.engine.animation.cameraConfigurationAnimation
   cameraLocationAnimation = api.services.engine.animation.cameraLocationAnimation
@@ -227,12 +260,24 @@ export function loadApi() {
   skyboxAnimation = api.services.engine.animation.skyboxAnimation
 
   easyPropertyAnimation = api.services.engine.animation.easyPropertyAnimation
+  rsLoopAnimationManager = api.services.engine.animation.rsLoopAnimationManager
+
+  rsSelectionService = api.services.engine.operate.rsSelectionService
+
+  rsAudioService = api.services.engine.audio.rsAudioService
 
   rsSelectionService = api.services.engine.operate.rsSelectionService
 
   rsNodeService = api.services.engine.render.rsNodeService
   rsModelService = api.services.engine.render.rsModelService
+  rsEnvironment = api.services.engine.render.rsEnvironment
   rsEnvironmentService = api.services.engine.render.rsEnvironmentService
+  rsTextureService = api.services.engine.render.rsTextureService
+  rsTransformGround = api.services.engine.render.rsTransformGround
+  rsClick = api.services.engine.render.rsClick
+  rsLabelService = api.services.engine.render.rsLabelService
+  rsNodeMaterialManager = api.services.engine.render.rsNodeMaterialManager
+  rsMaterialService = api.services.engine.render.rsMaterialService
   rsSeparateService = api.services.engine.render.rsSeparateService
 
   rsService = api.services.engine.rsService
@@ -245,6 +290,7 @@ export function loadApi() {
   rvResourceService = api.services.sync.rvResourceService
   rvModelService = api.services.sync.rvModelService
   rvAttributesService = api.services.sync.rvAttributesService
+  rvNodeMaterialAnalyzer = api.services.sync.rvNodeMaterialAnalyzer
 
   tStepService = api.services.target.tStepService
   tAttributesService = api.services.target.tAttributesService
