@@ -84,25 +84,19 @@ import {
   RsSeparateServiceApi,
   RsAudioServiceApi,
   RsTextureServiceApi,
+  PluginContainerServiceApi,
+  SceneServiceApi,
+  RsLoopAnimationManagerApi,
+  RsEnvironmentApi,
+  RsTransformGroundApi,
+  RsClickApi,
+  RsLabelServiceApi,
+  RsNodeMaterialManagerApi,
+  RsMaterialServiceApi,
+  RvNodeMaterialAnalyzerApi,
 } from 'next-flow-interface'
 
 import type { FunctionComponent } from 'react'
-import PluginContainerServiceApi
-  from "../../next-flow-interface/src/api/service/main/plugin/plugin-container-service-api";
-import sceneServiceApi from "../../next-flow-interface/src/api/service/main/scene/scene-service-api";
-import RsLoopAnimationManagerApi
-  from "../../next-flow-interface/src/api/service/engine/animation/factory/loop/rs-loop-animation-manager-api";
-import RsEnvironmentApi from "../../next-flow-interface/src/api/service/engine/render/environment/rs-environment-api";
-import RsTransformGroundApi
-  from "../../next-flow-interface/src/api/service/engine/render/environment/rs-transform-ground-api";
-import RsClickApi from "../../next-flow-interface/src/api/service/engine/render/click/rs-click-api";
-import RsLabelServiceApi from "../../next-flow-interface/src/api/service/engine/render/label/rs-label-service-api";
-import RsNodeMaterialManagerApi
-  from "../../next-flow-interface/src/api/service/engine/render/material/node/rs-node-material-manager-api";
-import RsMaterialServiceApi
-  from "../../next-flow-interface/src/api/service/engine/render/material/rs-material-service-api";
-import RvNodeMaterialAnalyzerApi
-  from "../../next-flow-interface/src/api/service/sync/material/node/rv-node-material-analyzer-api";
 
 export let rvLocationAttribute: RvLocationAttributeApi
 export let rvLabelAttribute: RvLabelAttributeApi
@@ -129,7 +123,7 @@ export let dialogService: DialogServiceApi
 export let nativeEventService: NativeEventServiceApi
 export let firstLoadModelService: FirstLoadModelServiceApi
 export let pluginContainerService: PluginContainerServiceApi
-export let sceneService: sceneServiceApi
+export let sceneService: SceneServiceApi
 
 export let cameraConfigurationAnimation: CameraConfigurationAnimationApi
 export let cameraLocationAnimation: CameraLocationAnimationApi
