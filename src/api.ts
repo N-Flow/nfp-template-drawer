@@ -94,6 +94,7 @@ import {
   RsNodeMaterialManagerApi,
   RsMaterialServiceApi,
   RvNodeMaterialAnalyzerApi,
+  ContextMenuServiceApi,
 } from 'next-flow-interface'
 
 import type { FunctionComponent } from 'react'
@@ -124,6 +125,7 @@ export let nativeEventService: NativeEventServiceApi
 export let firstLoadModelService: FirstLoadModelServiceApi
 export let pluginContainerService: PluginContainerServiceApi
 export let sceneService: SceneServiceApi
+export let contextMenuService: ContextMenuServiceApi
 
 export let cameraConfigurationAnimation: CameraConfigurationAnimationApi
 export let cameraLocationAnimation: CameraLocationAnimationApi
@@ -244,6 +246,7 @@ export function loadApi() {
   firstLoadModelService = api.services.main.firstLoadModelService
   pluginContainerService = api.services.main.pluginContainerService
   sceneService = api.services.main.sceneService
+  contextMenuService = api.services.main.contextMenuService
 
   cameraConfigurationAnimation = api.services.engine.animation.cameraConfigurationAnimation
   cameraLocationAnimation = api.services.engine.animation.cameraLocationAnimation
