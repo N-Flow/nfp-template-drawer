@@ -94,6 +94,7 @@ import {
   RsNodeMaterialManagerApi,
   RsMaterialServiceApi,
   RvNodeMaterialAnalyzerApi,
+  AwarenessServiceApi,
   ContextMenuServiceApi,
 } from 'next-flow-interface'
 
@@ -158,6 +159,7 @@ export let rsService: RsServiceApi
 
 export let syncService: SyncServiceApi
 export let historyService: HistoryServiceApi
+export let awarenessService: AwarenessServiceApi
 
 export let rvGlobalService: RvGlobalServiceApi
 export let rvStepService: RvStepServiceApi
@@ -281,6 +283,7 @@ export function loadApi() {
 
   syncService = api.services.sync.syncService
   historyService = api.services.sync.historyService
+  awarenessService = api.services.sync.awarenessService
   rvGlobalService = api.services.sync.rvGlobalService
   rvStepService = api.services.sync.rvStepService
   rvFileService = api.services.sync.rvFileService
