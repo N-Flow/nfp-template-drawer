@@ -29,7 +29,7 @@ export default class Plugin implements DrawerPlugin {
   open = false
 
   icon = () => {
-    return <span className='material-symbols-rounded'>bug_report</span>
+    return <span class='material-symbols-rounded'>bug_report</span>
   }
 
   drawer = Drawer
