@@ -28,9 +28,7 @@ export default class Plugin implements DrawerPlugin {
   color = packageJson.plugin.theme as ThemeColor
   open = false
 
-  icon() {
-    return '<span class="material-symbols-rounded">bug_report</span>'
-  }
+  icon = '<span class="material-symbols-rounded">bug_report</span>'
 
   drawer = Drawer
 }
