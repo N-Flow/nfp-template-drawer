@@ -32,7 +32,6 @@ import {
   PluginServiceApi,
   UserServiceApi,
   ThemeProviderProps,
-  ModulePreloaderApi,
   SyncServiceApi,
   RvGlobalServiceApi,
   HistoryServiceApi,
@@ -46,6 +45,7 @@ import {
   UseTStep,
   UseTAttributes,
   UseStepOptions,
+  UseTranslations,
   DialogProps,
   AntEmptyProps,
   MaterialSymbolProps,
@@ -96,6 +96,8 @@ import {
   RvNodeMaterialAnalyzerApi,
   AwarenessServiceApi,
   ContextMenuServiceApi,
+  RsSelectionApi,
+  InternationalizationProviderProps,
 } from 'next-flow-interface'
 
 import type { FunctionComponent } from 'react'
@@ -115,7 +117,6 @@ export let themeService: ThemeServiceApi
 export let internationalizationService: InternationalizationServiceApi
 export let userService: UserServiceApi
 export let meetingService: MeetingServiceApi
-export let modulePreloader: ModulePreloaderApi
 export let messageService: MessageServiceApi
 export let localDataService: LocalDataServiceApi
 export let ossUploadService: OssUploadServiceApi
@@ -142,6 +143,7 @@ export let rsLoopAnimationManager: RsLoopAnimationManagerApi
 export let rsAudioService: RsAudioServiceApi
 
 export let rsSelectionService: RsSelectionServiceApi
+export let rsSelection: RsSelectionApi
 
 export let rsNodeService: RsNodeServiceApi
 export let rsModelService: RsModelServiceApi
@@ -176,6 +178,7 @@ export let useBase: UseBase
 export let useTStep: UseTStep
 export let useTAttributes: UseTAttributes
 export let useStepOptions: UseStepOptions
+export let useTranslations: UseTranslations
 
 export let ThemeProvider: FunctionComponent<ThemeProviderProps>
 export let AntCheckbox: FunctionComponent<AntCheckboxProps>
@@ -213,6 +216,7 @@ export let RsdTitle: FunctionComponent<RsdTitleProps>
 
 export let FlexGrow: FunctionComponent<FlexGrowProps>
 export let MainPortal: FunctionComponent<MainPortalProps>
+export let InternationalizationProvider: FunctionComponent<InternationalizationProviderProps>
 
 export let rss: Record<string, string>
 
@@ -237,7 +241,6 @@ export function loadApi() {
   internationalizationService = api.services.main.internationalizationService
   meetingService = api.services.main.meetingService
   userService = api.services.main.userService
-  modulePreloader = api.services.main.modulePreloader
   messageService = api.services.main.messageService
   localDataService = api.services.main.localDataService
   ossUploadService = api.services.main.ossUploadService
@@ -261,11 +264,10 @@ export function loadApi() {
   easyPropertyAnimation = api.services.engine.animation.easyPropertyAnimation
   rsLoopAnimationManager = api.services.engine.animation.rsLoopAnimationManager
 
-  rsSelectionService = api.services.engine.operate.rsSelectionService
-
   rsAudioService = api.services.engine.audio.rsAudioService
 
   rsSelectionService = api.services.engine.operate.rsSelectionService
+  rsSelection = api.services.engine.operate.rsSelection
 
   rsNodeService = api.services.engine.render.rsNodeService
   rsModelService = api.services.engine.render.rsModelService
@@ -299,6 +301,7 @@ export function loadApi() {
   useTStep = api.hooks.useTStep
   useTAttributes = api.hooks.useTAttributes
   useStepOptions = api.hooks.useStepOptions
+  useTranslations = api.hooks.useTranslations
 
   ThemeProvider = api.components.ant.ThemeProvider
   AntCheckbox = api.components.ant.AntCheckbox
@@ -336,6 +339,7 @@ export function loadApi() {
 
   FlexGrow = api.components.dev.FlexGrow
   MainPortal = api.components.dev.MainPortal
+  InternationalizationProvider = api.components.dev.InternationalizationProvider
 
   rss = api.styles.rss
 
