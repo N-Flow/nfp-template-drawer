@@ -28,7 +28,7 @@
   "author": "Next FLow",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babylonjs/core": "8.23.1",
+    "@babylonjs/core": "8.26.0",
     "@hocuspocus/provider": "^2.15.2",
     "antd": "5.27.0",
     "clsx": "2.1.1",
