@@ -10,7 +10,7 @@ export default function Drawer() {
 
   return <ThemeProvider color={ThemeColor.PURPLE}>
     <div className={clsx(rss.drawer, styles.drawer)}>
-      <ScrollBar className={rss.main} drawer>
+      <ScrollBar className={rss.main} barPaddingEnd='0.75rem'>
         <div></div>
       </ScrollBar>
     </div>
