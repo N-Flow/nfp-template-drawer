@@ -46,7 +46,6 @@ import {
   UseTAttributes,
   UseStepOptions,
   UseTranslations,
-  DialogProps,
   AntEmptyProps,
   MaterialSymbolProps,
   MainPortalProps,
@@ -194,7 +193,6 @@ export let FileProgressBar: FunctionComponent<FileProgressBarProps>
 export let ProgressBar: FunctionComponent<ProgressBarProps>
 export let UploadButtonAndList: FunctionComponent<UploadButtonAndListProps>
 export let ScrollBar: FunctionComponent<ScrollBarProps>
-export let Dialog: FunctionComponent<DialogProps>
 export let MaterialSymbol: FunctionComponent<MaterialSymbolProps>
 export let ResourcePreview: FunctionComponent<ResourcePreviewProps>
 
@@ -317,7 +315,6 @@ export function loadApi() {
   ProgressBar = api.components.normal.ProgressBar
   UploadButtonAndList = api.components.normal.UploadButtonAndList
   ScrollBar = api.components.normal.ScrollBar
-  Dialog = api.components.normal.Dialog
   MaterialSymbol = api.components.normal.MaterialSymbol
   ResourcePreview = api.components.normal.ResourcePreview
 
