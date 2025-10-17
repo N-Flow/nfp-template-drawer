@@ -7,7 +7,6 @@ const GENERAL_FILE_LIST = [
   '.github/workflows/deploy.yml',
   'scripts/commit.js',
   'src/types/global.d.ts',
-  'src/api.ts',
   'src/index.ts',
   '.gitignore',
   'LICENSE',
