@@ -1,7 +1,6 @@
 {
   "name": "nfp-template-drawer",
   "version": "1.0.0",
-  "description": "",
   "plugin": {
     "id": "template-drawer",
     "type": "DRAWER",
@@ -9,7 +8,8 @@
     "port": {
       "dev": 8080,
       "debug": 8081
-    }
+    },
+    "namespace": "template-drawer"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

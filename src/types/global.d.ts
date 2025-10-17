@@ -15,6 +15,9 @@ declare module '*.module.sass' {
 
 declare interface Window {
   nfpConnector: {
+    loadMessages: (messages: any) => void
     install: (plugin: any) => void
+    api: any
   }
+  locale: string
 }

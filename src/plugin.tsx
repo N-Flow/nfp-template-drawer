@@ -1,23 +1,24 @@
 import {IconPluginPosition, PluginType, ThemeColor,DrawerPlugin} from 'next-flow-interface'
-import React from 'react';
+import { internationalizationService } from 'next-flow-interface/api'
 
 import packageJson from '../package.json'
 
-import {loadApi} from "./api";
 import Drawer from "./drawer/drawer";
 
 
 export default class Plugin implements DrawerPlugin {
 
   id: string = packageJson.plugin.id
-  name: string = packageJson.name
   version: string = packageJson.version
-  description = packageJson.description
+  namespace = packageJson.plugin.namespace
+
+  intl = internationalizationService.createTranslator(this.namespace)
+
+  name: string = this.intl`name`
+  description = this.intl`description`
 
   type: PluginType = packageJson.plugin.type as PluginType
   theme: ThemeColor = packageJson.plugin.theme as ThemeColor
-
-  loadApi = loadApi
 
   weight = 50
   title = ''
