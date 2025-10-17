@@ -39,7 +39,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css', '.json'],
   },
   externals: {
     'next-flow-interface': 'NextFlowInterface',
@@ -96,6 +96,10 @@ module.exports = {
         },
         exclude: /node_modules/,
       },
+      {
+        test: /\.json$/,
+        type: 'json',
+      },
     ],
   },
   devServer: {
@@ -107,6 +111,10 @@ module.exports = {
     watchFiles: ['src/**/*'],
     liveReload: false,
     open: false,
+    allowedHosts: 'all',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
     client: {
       reconnect: true,
       overlay: {

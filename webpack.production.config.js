@@ -16,10 +16,11 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css', '.json'],
   },
   externals: {
     'next-flow-interface': 'NextFlowInterface',
+    'next-flow-interface/instance': 'PluginApiProvider',
     react: 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',
