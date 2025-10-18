@@ -20,7 +20,7 @@ module.exports = {
   },
   externals: {
     'next-flow-interface': 'NextFlowInterface',
-    'next-flow-interface/instance': 'PluginApiProvider',
+    'next-flow-interface/api': 'NextFlowInterfaceApi',
     react: 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',

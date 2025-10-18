@@ -43,11 +43,13 @@ module.exports = {
   },
   externals: {
     'next-flow-interface': 'NextFlowInterface',
+    'next-flow-interface/api': 'NextFlowInterfaceApi',
     react: 'React',
     'react-dom': 'ReactDOM',
     '@babylonjs/core': 'BabylonCore',
     valtio: 'Valtio',
     'rhine-var': 'RhineVar',
+    'rhine-var/react': 'RhineVarReact',
     antd: 'AntD',
     'file-type': 'FileType',
     mime: 'Mime',
