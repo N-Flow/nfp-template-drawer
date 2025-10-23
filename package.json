@@ -3,20 +3,20 @@
   "version": "1.0.0",
   "plugin": {
     "id": "template-drawer",
+    "namespace": "plugins.template-drawer",
     "type": "DRAWER",
     "theme": "BLUE",
     "port": {
       "dev": 8080,
       "debug": 8081
-    },
-    "namespace": "template-drawer"
+    }
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "webpack serve --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
     "test": "echo All tests passed.",
-    "build": "webpack --config webpack.production.config.js",
     "commit": "node scripts/commit.js",
     "type:check": "tsc --noEmit",
     "lint": "eslint --fix .",

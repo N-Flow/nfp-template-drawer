@@ -20,12 +20,12 @@ export default class Plugin implements DrawerPlugin {
   type: PluginType = packageJson.plugin.type as PluginType
   theme: ThemeColor = packageJson.plugin.theme as ThemeColor
 
+  label = this.intl`label`
+  title = this.intl`title`
+  tip = this.intl`tip`
   weight = 50
-  title = ''
-  tip = ''
   position = IconPluginPosition.TOP_LEFT
   group = ''
-  label = ''
   color = packageJson.plugin.theme as ThemeColor
   open = false
 

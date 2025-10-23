@@ -1,9 +1,14 @@
 const path = require('path')
+const fs = require('fs')
 
 const webpack = require('webpack')
 const WebSocket = require('ws')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const packageJson = require('./package.json')
+const packageName = packageJson.name
 
 class CompilationNotifierPlugin {
   apply(compiler) {
@@ -30,100 +35,214 @@ class CompilationNotifierPlugin {
   }
 }
 
-module.exports = {
-  mode: 'development',
-  entry: './src/index.ts',
-  output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css', '.json'],
-  },
-  externals: {
-    'next-flow-interface': 'NextFlowInterface',
-    'next-flow-interface/api': 'NextFlowInterfaceApi',
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    '@babylonjs/core': 'BabylonCore',
-    valtio: 'Valtio',
-    'rhine-var': 'RhineVar',
-    'rhine-var/react': 'RhineVarReact',
-    antd: 'AntD',
-    'file-type': 'FileType',
-    mime: 'Mime',
-    'brotli-wasm': 'BrotliWasm',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                namedExport: false,
-                localIdentName: '[path][name]_[local]__[hash:base64:8]',
+class MessagesProcessorPlugin {
+  constructor(options = {}) {
+    this.isDevelopment = options.isDevelopment || false
+  }
+
+  apply(compiler) {
+    compiler.hooks.thisCompilation.tap('MessagesProcessorPlugin', (compilation) => {
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: 'MessagesProcessorPlugin',
+          stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONAL
+        },
+        (assets, callback) => {
+          this.processMessages(compilation, callback)
+        }
+      )
+    })
+
+    // 在开发环境中，监听 messages 文件变化
+    if (this.isDevelopment) {
+      compiler.hooks.afterCompile.tap('MessagesProcessorPlugin', (compilation) => {
+        const messagesSourcePath = path.resolve(__dirname, 'messages')
+        if (fs.existsSync(messagesSourcePath)) {
+          const messageFiles = fs.readdirSync(messagesSourcePath)
+            .filter(file => file.endsWith('.json'))
+            .map(file => path.join(messagesSourcePath, file))
+
+          // 将 messages 文件添加到 webpack 的依赖中，这样文件变化时会触发重新编译
+          messageFiles.forEach(filePath => {
+            compilation.fileDependencies.add(filePath)
+          })
+        }
+      })
+    }
+  }
+
+  processMessages(compilation, callback) {
+    const messagesSourcePath = path.resolve(__dirname, 'messages')
+    const messagesDistPath = 'messages'
+
+    try {
+      // 检查 messages 源目录是否存在
+      if (!fs.existsSync(messagesSourcePath)) {
+        console.warn('Messages directory not found, skipping messages processing.')
+        callback()
+        return
+      }
+
+      // 读取 messages 目录中的所有 .json 文件
+      const messageFiles = fs.readdirSync(messagesSourcePath)
+        .filter(file => file.endsWith('.json'))
+
+      messageFiles.forEach(file => {
+        const sourceFilePath = path.join(messagesSourcePath, file)
+        const targetFilePath = path.join(messagesDistPath, file)
+
+        try {
+          // 读取原始 JSON 文件
+          const jsonContent = fs.readFileSync(sourceFilePath, 'utf8')
+          const jsonData = JSON.parse(jsonContent)
+
+          // 简单压缩：移除所有不必要的空格和缩进
+          const compressedJson = JSON.stringify(jsonData)
+
+          // 添加到 webpack 编译输出
+          compilation.emitAsset(targetFilePath, {
+            source: () => compressedJson,
+            size: () => compressedJson.length
+          })
+
+          console.log(`Messages file processed: ${file}`)
+        } catch (error) {
+          console.error(`Error processing messages file ${file}:`, error)
+        }
+      })
+
+      callback()
+    } catch (error) {
+      console.error('Error in MessagesProcessorPlugin:', error)
+      callback(error)
+    }
+  }
+}
+
+module.exports = (env, argv) => {
+  const isServe = argv.serve || process.env.WEBPACK_SERVE === 'true'
+  const isDevelopment = isServe
+
+  return {
+    mode: isDevelopment ? 'development' : 'production',
+    entry: './src/index.ts',
+    output: {
+      filename: 'index.js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css', '.json'],
+    },
+    externals: {
+      'next-flow-interface': 'NextFlowInterface',
+      'next-flow-interface/api': 'NextFlowInterfaceApi',
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      '@babylonjs/core': 'BabylonCore',
+      valtio: 'Valtio',
+      'rhine-var': 'RhineVar',
+      'rhine-var/react': 'RhineVarReact',
+      antd: 'AntD',
+      'file-type': 'FileType',
+      mime: 'Mime',
+      'brotli-wasm': 'BrotliWasm',
+      clsx: 'clsx'
+    },
+    module: {
+      rules: [
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+            isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  namedExport: false,
+                  localIdentName: isDevelopment
+                    ? '[path][name]_[local]__[hash:base64:8]'
+                    : '[hash:base64:8]',
+                  ...(isDevelopment ? {} : { localIdentHashSalt: packageName }),
+                },
               },
             },
-          },
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                namedExport: false,
-                localIdentName: '[path][name]_[local]__[hash:base64:8]',
+            'sass-loader',
+          ],
+        },
+        {
+          test: /\.css$/i,
+          use: [
+            isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  namedExport: false,
+                  localIdentName: isDevelopment
+                    ? '[path][name]_[local]__[hash:base64:8]'
+                    : '[hash:base64:8]',
+                  ...(isDevelopment ? {} : { localIdentHashSalt: packageName }),
+                },
               },
             },
+          ],
+        },
+        {
+          test: /\.tsx?$/,
+          use: {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(
+                __dirname,
+                isDevelopment ? 'tsconfig.json' : 'tsconfig.production.json'
+              ),
+            },
           },
-        ],
-      },
-      {
-        test: /\.tsx?$/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            configFile: path.resolve(__dirname, 'tsconfig.json'),
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.json$/,
+          type: 'json',
+        },
+      ],
+    },
+    ...(isDevelopment
+      ? {
+        devServer: {
+          static: {
+            directory: path.join(__dirname, 'dist'),
+          },
+          port: packageJson.plugin.port.dev,
+          hot: false,
+          watchFiles: ['src/**/*', 'messages/**/*'],
+          liveReload: false,
+          open: false,
+          allowedHosts: 'all',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          client: {
+            reconnect: true,
+            overlay: {
+              warnings: false,
+              errors: true,
+            },
           },
         },
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.json$/,
-        type: 'json',
-      },
-    ],
-  },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
-    port: packageJson.plugin.port.dev,
-    hot: false,
-    watchFiles: ['src/**/*'],
-    liveReload: false,
-    open: false,
-    allowedHosts: 'all',
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    client: {
-      reconnect: true,
-      overlay: {
-        warnings: false,
-        errors: true,
-      },
-    },
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new CompilationNotifierPlugin()],
+        plugins: [new webpack.HotModuleReplacementPlugin(), new CompilationNotifierPlugin(), new MessagesProcessorPlugin({ isDevelopment })],
+      }
+      : {
+        plugins: [
+          new MiniCssExtractPlugin({
+            filename: 'index.css',
+          }),
+          new MessagesProcessorPlugin(),
+        ],
+        optimization: {
+          minimize: true,
+          minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+        },
+      }),
+  }
 }
