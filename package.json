@@ -28,7 +28,7 @@
   "author": "Next FLow",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babylonjs/core": "8.26.2",
+    "@babylonjs/core": "8.33.0",
     "@hocuspocus/provider": "^2.15.2",
     "@types/webpack-dev-server": "^4.7.2",
     "@types/ws": "^8.18.1",

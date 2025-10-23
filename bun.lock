@@ -4,7 +4,7 @@
     "": {
       "name": "nfp-template-drawer",
       "dependencies": {
-        "@babylonjs/core": "8.26.2",
+        "@babylonjs/core": "8.33.0",
         "@hocuspocus/provider": "^2.15.2",
         "@types/webpack-dev-server": "^4.7.2",
         "@types/ws": "^8.18.1",
@@ -67,7 +67,7 @@
 
     "@babel/runtime": ["@babel/runtime@7.28.4", "https://registry.npmmirror.com/@babel/runtime/-/runtime-7.28.4.tgz", {}, "sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ=="],
 
-    "@babylonjs/core": ["@babylonjs/core@8.26.2", "https://registry.npmmirror.com/@babylonjs/core/-/core-8.26.2.tgz", {}, "sha512-wzAm6l/StYBIZQdXLrXKg8YmexeQCsLPWgC6K8ypitKnpjuztbEdaXhwvlpLyeE8ammF6ZsQlPzODMfawDwAHg=="],
+    "@babylonjs/core": ["@babylonjs/core@8.33.0", "", {}, "sha512-kU6hF791ESCmhPaLpEui9oLqi/Nh6fsH3QrElODX3AVHEdhjzkHm2MtbtVDki2eOl0XqrxiJxyCeTiL1Y+qZaA=="],
 
     "@discoveryjs/json-ext": ["@discoveryjs/json-ext@0.5.7", "https://registry.npmmirror.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz", {}, "sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw=="],
 
