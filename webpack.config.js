@@ -129,7 +129,7 @@ module.exports = (env, argv) => {
     output: {
       filename: 'index.js',
       path: path.resolve(__dirname, 'dist'),
-      publicPath: '/',
+      publicPath: isServe ? '/' : `https://cdn.nextflow.art/public/plugins/${packageJson.plugin.id}/v${packageJson.version}/`,
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.sass', '.css', '.json'],
