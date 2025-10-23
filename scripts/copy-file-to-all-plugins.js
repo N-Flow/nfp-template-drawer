@@ -13,7 +13,6 @@ const GENERAL_FILE_LIST = [
   'tsconfig.json',
   'tsconfig.production.json',
   'webpack.config.js',
-  'webpack.production.config.js',
 ]
 
 const COMMIT_MESSAGE = 'chore: sync files from nfp-template'
