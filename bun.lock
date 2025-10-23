@@ -6,11 +6,14 @@
       "dependencies": {
         "@babylonjs/core": "8.26.2",
         "@hocuspocus/provider": "^2.15.2",
+        "@types/webpack-dev-server": "^4.7.2",
+        "@types/ws": "^8.18.1",
         "antd": "5.27.0",
         "clsx": "2.1.1",
         "react": "19.1.1",
         "react-dom": "19.1.1",
         "rhine-var": "0.11.2",
+        "terser-webpack-plugin": "^5.3.14",
         "valtio": "2.1.7",
         "y-protocols": "^1.0.6",
         "yjs": "^13.6.23",
@@ -283,6 +286,8 @@
     "@types/sockjs": ["@types/sockjs@0.3.36", "https://registry.npmmirror.com/@types/sockjs/-/sockjs-0.3.36.tgz", { "dependencies": { "@types/node": "*" } }, "sha512-MK9V6NzAS1+Ud7JV9lJLFqW85VbC9dq3LmwZCuBe4wBDgKC0Kj/jd8Xl+nSviU+Qc3+m7umHHyHg//2KSa0a0Q=="],
 
     "@types/unist": ["@types/unist@3.0.3", "https://registry.npmmirror.com/@types/unist/-/unist-3.0.3.tgz", {}, "sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q=="],
+
+    "@types/webpack-dev-server": ["@types/webpack-dev-server@4.7.2", "", { "dependencies": { "webpack-dev-server": "*" } }, "sha512-Y3p0Fmfvp0MHBDoCzo+xFJaWTw0/z37mWIo6P15j+OtmUDLvznJWdZNeD7Q004R+MpQlys12oXbXsrXRmxwg4Q=="],
 
     "@types/ws": ["@types/ws@8.18.1", "https://registry.npmmirror.com/@types/ws/-/ws-8.18.1.tgz", { "dependencies": { "@types/node": "*" } }, "sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg=="],
 
