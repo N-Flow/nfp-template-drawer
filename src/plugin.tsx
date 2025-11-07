@@ -12,7 +12,10 @@ export default class Plugin implements DrawerPlugin {
   version: string = packageJson.version
   namespace = packageJson.plugin.namespace
 
-  intl = internationalizationService.createTranslator(this.namespace)
+  intl = internationalizationService.createIntl(this.namespace)
+  createIntl(namespace: string) {
+    return internationalizationService.createIntl(this.namespace + '.' + namespace)
+  }
 
   name: string = this.intl`name`
   description = this.intl`description`
