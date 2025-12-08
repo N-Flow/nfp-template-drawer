@@ -1,5 +1,4 @@
-import {IconPluginPosition, PluginType, ThemeColor,DrawerPlugin} from 'next-flow-interface'
-import { internationalizationService } from 'next-flow-interface/api'
+import {IconPluginPosition, PluginType, ThemeColor,DrawerPlugin, internationalizationService} from 'next-flow-interface'
 
 import packageJson from '../package.json'
 

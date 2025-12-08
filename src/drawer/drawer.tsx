@@ -1,8 +1,6 @@
 import clsx from "clsx";
-import {ThemeColor} from "next-flow-interface";
+import {ThemeColor, rss, ScrollBar, ThemeProvider} from "next-flow-interface";
 import React from "react";
-
-import {rss, ScrollBar, ThemeProvider} from "next-flow-interface/api";
 
 import styles from "./drawer.module.sass"
 

@@ -25,7 +25,7 @@
     "format:check": "prettier --check ."
   },
   "keywords": [],
-  "author": "Next FLow",
+  "author": "Next Flow",
   "license": "Apache-2.0",
   "dependencies": {
     "@babylonjs/core": "8.33.0",
@@ -34,6 +34,7 @@
     "@types/ws": "^8.18.1",
     "antd": "5.27.0",
     "clsx": "2.1.1",
+    "next-flow-interface": "^0.24.6",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "rhine-var": "0.11.2",
