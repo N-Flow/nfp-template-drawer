@@ -37,16 +37,6 @@ jobs:
           cd ../
           git clone https://github.com/n-flow/next-flow-interface.git
 
-      - name: Build next-flow-interface
-        run: |
-          cd ../next-flow-interface
-          bun install --frozen-lockfile
-          bun run build
-          bun link
-
-      - name: Link next-flow-interface to next-flow-space
-        run: bun link next-flow-interface
-
       - name: Run Unit Tests
         run: bun run test
 
