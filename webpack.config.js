@@ -136,6 +136,8 @@ module.exports = (env, argv) => {
     },
     externals: {
       'next-flow-interface': 'NextFlowInterface',
+      'next-flow-design': 'NextFlowDesign',
+      'next-flow-design/react': 'NextFlowDesignReact',
       react: 'React',
       'react-dom': 'ReactDOM',
       '@babylonjs/core': 'BabylonCore',
