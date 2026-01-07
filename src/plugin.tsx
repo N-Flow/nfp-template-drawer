@@ -28,7 +28,6 @@ export default class Plugin implements DrawerPlugin {
   weight = 50
   position = IconPluginPosition.TOP_LEFT
   group = ''
-  color = packageJson.plugin.theme as ThemeColor
   open = false
 
   icon = '<span class="material-symbols-rounded">bug_report</span>'

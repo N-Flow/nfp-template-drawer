@@ -6,11 +6,9 @@ import styles from "./drawer.module.sass"
 
 export default function Drawer() {
 
-  return <ThemeProvider color={ThemeColor.PURPLE}>
-    <div className={clsx(rss.drawer, styles.drawer)}>
-      <ScrollBar className={rss.main} barPaddingEnd='0.75rem'>
-        <div></div>
-      </ScrollBar>
-    </div>
-  </ThemeProvider>
+  return <div className={clsx(rss.drawer, styles.drawer)}>
+    <ScrollBar className={rss.main} barPaddingEnd='0.75rem'>
+      <div></div>
+    </ScrollBar>
+  </div>
 }
