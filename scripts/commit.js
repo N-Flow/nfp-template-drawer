@@ -8,7 +8,7 @@ const readline = require('readline')
 const packageJson = require('../package.json')
 
 const PROJECT_PATH = path.resolve(__dirname, '../')
-const ACTIONS_URL = 'https://github.com/n-flow/' + packageJson.name + '/actions'
+const ACTIONS_URL = 'https://github.com/N-Flow/' + packageJson.name + '/actions'
 
 function checkPackageJson(projectPath) {
   if (!fs.existsSync(path.join(projectPath, 'package.json'))) {

@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as readline from 'readline'
 
 // 配置项
-const COMMIT_MESSAGE = 'chore: update package versions'
+const COMMIT_MESSAGE = 'chore: update package version'
 const pluginsPath = path.resolve(__dirname, '../../')
 const pluginProjectPrefix = 'nfp-'
 const currentPath = path.resolve(__dirname, '../')
