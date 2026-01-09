@@ -1,28 +1,28 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
-const { execSync } = require('child_process')
-const fs = require('fs')
-const path = require('path')
-const readline = require('readline')
+import { execSync } from 'child_process'
+import fs from 'fs'
+import path from 'path'
+import readline from 'readline'
 
-const packageJson = require('../package.json')
+const packageJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8'))
 
 const PROJECT_PATH = path.resolve(__dirname, '../')
 const ACTIONS_URL = 'https://github.com/N-Flow/' + packageJson.name + '/actions'
 
-function checkPackageJson(projectPath) {
+function checkPackageJson(projectPath: string): void {
   if (!fs.existsSync(path.join(projectPath, 'package.json'))) {
     console.error(`package.json file not found in ${projectPath}`)
     process.exit(1)
   }
 }
 
-function getCurrentVersion(projectPath) {
-  const packageJson = require(path.join(projectPath, 'package.json'))
+function getCurrentVersion(projectPath: string): string {
+  const packageJson = JSON.parse(fs.readFileSync(path.join(projectPath, 'package.json'), 'utf8'))
   return packageJson.version
 }
 
-function updateVersion(projectPath, newVersion) {
+function updateVersion(projectPath: string, newVersion: string): void {
   const packageJsonPath = path.join(projectPath, 'package.json')
   const packageLockPath = path.join(projectPath, 'package-lock.json')
 
@@ -37,7 +37,7 @@ function updateVersion(projectPath, newVersion) {
   }
 }
 
-function executeGitCommit(projectPath, commitMessage) {
+function executeGitCommit(projectPath: string, commitMessage: string): void {
   try {
     execSync('git add .', { cwd: projectPath, stdio: 'inherit' })
     execSync(`git commit -m "${commitMessage}"`, { cwd: projectPath, stdio: 'inherit' })
@@ -47,7 +47,7 @@ function executeGitCommit(projectPath, commitMessage) {
   }
 }
 
-function createGitTag(projectPath, version) {
+function createGitTag(projectPath: string, version: string): void {
   try {
     execSync(`git tag v${version}`, { cwd: projectPath, stdio: 'inherit' })
   } catch (error) {
@@ -56,7 +56,7 @@ function createGitTag(projectPath, version) {
   }
 }
 
-function executeGitPush(projectPath) {
+function executeGitPush(projectPath: string): void {
   try {
     execSync('git push --follow-tags', { cwd: projectPath, stdio: 'inherit' })
   } catch (error) {
@@ -65,7 +65,7 @@ function executeGitPush(projectPath) {
   }
 }
 
-function getCommitMessage() {
+function getCommitMessage(): Promise<string> {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
@@ -84,7 +84,7 @@ function getCommitMessage() {
   })
 }
 
-function executeBuild(projectPath) {
+function executeBuild(projectPath: string): void {
   try {
     console.log(`\nBuilding project...`)
     execSync('npm run build', { cwd: projectPath, stdio: 'inherit' })
@@ -94,14 +94,14 @@ function executeBuild(projectPath) {
   }
 }
 
-function executePublish(projectPath) {
+function executePublish(projectPath: string): void {
   try {
     console.log(`\nPublishing package...`)
     execSync('npm publish', { cwd: projectPath, stdio: 'inherit' })
   } catch (error) {}
 }
 
-function incrementVersion(version) {
+function incrementVersion(version: string): string {
   const parts = version.split('.')
   const patch = parseInt(parts[2], 10) + 1
   return `${parts[0]}.${parts[1]}.${patch}`
