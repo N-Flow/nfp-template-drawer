@@ -11,7 +11,7 @@
         "antd": "5.27.0",
         "clsx": "2.1.1",
         "next-flow-design": "^1.6.6",
-        "next-flow-interface": "^0.25.13",
+        "next-flow-interface": "^0.25.14",
         "react": "19.2.3",
         "react-dom": "19.2.3",
         "rhine-var": "0.11.2",
@@ -1161,7 +1161,7 @@
 
     "next-flow-design": ["next-flow-design@1.6.6", "", { "dependencies": { "@popperjs/core": "^2.11.8" }, "peerDependencies": { "@lit/react": "^1.0.8", "lit": "^3.3.2", "react": "^19.2.3", "react-dom": "^19.2.3" }, "optionalPeers": ["@lit/react", "react", "react-dom"] }, "sha512-mekO3FiuvMSFHbxDBg4vkMBMKVf0JcmaTWJTYUj6uVRwR1o8k4MCVzDC5USFFbt9ZKxZA3Oxm55O8ycgCLUWaQ=="],
 
-    "next-flow-interface": ["next-flow-interface@0.25.13", "", { "peerDependencies": { "@babylonjs/core": "8.33.0", "antd": "5.27.0", "brotli-wasm": "^3.0.1", "clsx": "2.1.1", "file-type": "^21.0.0", "mime": "^4.0.7", "react": "19.2.3", "react-dom": "19.2.3", "rhine-var": "0.11.2", "valtio": "2.1.7" } }, "sha512-XKcxdRaGYR9998zkX9RtdOV7GC4oGvkn9Uh/PcmiZb1QCnXpGyMxnwUtjoB5ktpHORtyRnteCQi9WHVLDRF9Ag=="],
+    "next-flow-interface": ["next-flow-interface@0.25.14", "", { "peerDependencies": { "@babylonjs/core": "8.33.0", "antd": "5.27.0", "brotli-wasm": "^3.0.1", "clsx": "2.1.1", "file-type": "^21.0.0", "mime": "^4.0.7", "react": "19.2.3", "react-dom": "19.2.3", "rhine-var": "0.11.2", "valtio": "2.1.7" } }, "sha512-CqzCWmEfiZGMtI2ZUCDwyIujN2jTKHPG0my/eKyt5zRwjGMu258AoGXI1ykdF8S8BwnefaRUYX7QVlc2z+6FnA=="],
 
     "node-addon-api": ["node-addon-api@7.1.1", "https://registry.npmmirror.com/node-addon-api/-/node-addon-api-7.1.1.tgz", {}, "sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ=="],
 

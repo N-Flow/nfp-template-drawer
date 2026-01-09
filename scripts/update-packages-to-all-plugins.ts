@@ -200,8 +200,8 @@ function createGitTag(pluginPath: string, version: string): void {
   }
 }
 
-// Git提交和推送
-function gitCommitAndPush(pluginPath: string, commitMessage: string, version: string): void {
+// Git提交和创建tag
+function gitCommitAndTag(pluginPath: string, commitMessage: string, version: string): void {
   try {
     console.log(`[INFO] Git add...`)
     execSync('git add .', { cwd: pluginPath, stdio: 'inherit' })
@@ -211,18 +211,21 @@ function gitCommitAndPush(pluginPath: string, commitMessage: string, version: st
 
     console.log(`[INFO] Creating tag...`)
     createGitTag(pluginPath, version)
+  } catch (error) {
+    console.error(`[ERROR] Git operations failed in ${pluginPath}`)
+    throw error
+  }
+}
 
+// Git推送
+function gitPush(pluginPath: string): void {
+  try {
     console.log(`[INFO] Git push...`)
     execSync('git push --follow-tags', { cwd: pluginPath, stdio: 'inherit' })
   } catch (error) {
-    // 如果是push失败，只记录错误但不中断流程
-    if (error instanceof Error && error.message.includes('push')) {
-      console.warn(`[WARNING] Git push failed for ${path.basename(pluginPath)}, skipping...`)
+    console.warn(`[WARNING] Git push failed for ${path.basename(pluginPath)}, skipping...`)
+    if (error instanceof Error) {
       console.warn(error.message)
-    } else {
-      // 其他错误则抛出
-      console.error(`[ERROR] Git operations failed in ${pluginPath}`)
-      throw error
     }
   }
 }
@@ -290,7 +293,9 @@ async function main() {
 
   console.log(`\n[INFO] ${pluginsNeedUpdate.length} plugins need updates\n`)
 
-  // 处理需要更新的插件
+  const pluginsReadyToPush: string[] = []
+
+  // 第一阶段：处理所有插件（更新、安装、提交）
   for (const { path: pluginPath, version } of pluginsNeedUpdate) {
     console.log(`\n[INFO] Processing ${path.basename(pluginPath)}...`)
 
@@ -301,15 +306,27 @@ async function main() {
       // 2. 执行bun install
       runBunInstall(pluginPath)
 
-      // 3. Git提交和推送
-      gitCommitAndPush(pluginPath, COMMIT_MESSAGE, version)
+      // 3. Git提交和创建tag
+      gitCommitAndTag(pluginPath, COMMIT_MESSAGE, version)
 
-      console.log(`[SUCCESS] ${path.basename(pluginPath)} updated successfully`)
+      pluginsReadyToPush.push(pluginPath)
+      console.log(`[SUCCESS] ${path.basename(pluginPath)} prepared successfully`)
     } catch (error) {
       console.error(`[ERROR] Failed to process ${path.basename(pluginPath)}`)
       console.error(error)
       // 不退出，继续处理下一个插件
       console.log(`[INFO] Continuing with next plugin...\n`)
+    }
+  }
+
+  // 第二阶段：推送所有准备好的插件
+  if (pluginsReadyToPush.length > 0) {
+    console.log(`\n[INFO] Starting push phase for ${pluginsReadyToPush.length} plugins...\n`)
+
+    for (const pluginPath of pluginsReadyToPush) {
+      console.log(`\n[INFO] Pushing ${path.basename(pluginPath)}...`)
+      gitPush(pluginPath)
+      console.log(`[SUCCESS] ${path.basename(pluginPath)} pushed successfully`)
     }
   }
 
