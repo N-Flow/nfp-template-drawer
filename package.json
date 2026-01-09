@@ -1,6 +1,7 @@
 {
   "name": "nfp-template-drawer",
   "version": "1.0.0",
+  "type": "module",
   "plugin": {
     "id": "template-drawer",
     "namespace": "plugins.template-drawer",

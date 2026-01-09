@@ -1,13 +1,17 @@
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
 
-const webpack = require('webpack')
-const WebSocket = require('ws')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+import webpack from 'webpack'
+import WebSocket from 'ws'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
-const packageJson = require('./package.json')
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'))
 const packageName = packageJson.name
 
 class CompilationNotifierPlugin {
@@ -119,7 +123,7 @@ class MessagesProcessorPlugin {
   }
 }
 
-module.exports = (env, argv) => {
+export default (env, argv) => {
   const isServe = argv.serve || process.env.WEBPACK_SERVE === 'true'
   const isDevelopment = isServe
 

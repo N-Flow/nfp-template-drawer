@@ -5,9 +5,8 @@ import fs from 'fs'
 import path from 'path'
 import readline from 'readline'
 
-const packageJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8'))
-
-const PROJECT_PATH = path.resolve(__dirname, '../')
+const PROJECT_PATH = process.cwd()
+const packageJson = JSON.parse(fs.readFileSync(path.join(PROJECT_PATH, 'package.json'), 'utf8'))
 const ACTIONS_URL = 'https://github.com/N-Flow/' + packageJson.name + '/actions'
 
 function checkPackageJson(projectPath: string): void {
