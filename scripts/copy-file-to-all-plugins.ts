@@ -1,11 +1,13 @@
-const { execSync } = require('child_process')
-const fs = require('fs')
-const path = require('path')
+import { execSync } from 'child_process'
+import fs from 'fs'
+import path from 'path'
 
 
 const GENERAL_FILE_LIST = [
   '.github/workflows/deploy.yml',
-  'scripts/commit.js',
+  'scripts/commit.ts',
+  'scripts/copy-file-to-all-plugins.ts',
+  'scripts/update-packages-to-all-plugins.ts',
   'src/types/global.d.ts',
   'src/index.ts',
   '.gitignore',
@@ -22,9 +24,9 @@ const pluginsPath = path.resolve(__dirname, '../../')
 const currentPath = path.resolve(__dirname, '../')
 
 
-const pluginsList = []
+const pluginsList: string[] = []
 // 记录需要更新的插件
-const pluginsNeedUpdate = []
+const pluginsNeedUpdate: string[] = []
 
 fs.readdirSync(pluginsPath).forEach(file => {
   const fullPath = path.join(pluginsPath, file)
@@ -42,29 +44,29 @@ console.log(`[INFO] Total files to sync: ${GENERAL_FILE_LIST.length}`)
 console.log(`[INFO] Target plugins: ${pluginsList.length}\n`)
 
 // 检查文件是否相同
-function areFilesIdentical(sourceFile, targetFile) {
+function areFilesIdentical(sourceFile: string, targetFile: string): boolean {
   if (!fs.existsSync(targetFile)) {
     return false
   }
-  
+
   try {
     const sourceContent = fs.readFileSync(sourceFile)
     const targetContent = fs.readFileSync(targetFile)
     return Buffer.compare(sourceContent, targetContent) === 0
   } catch (error) {
-    console.error(`[ERROR] Error comparing files ${sourceFile} and ${targetFile}: ${error.message}`)
+    console.error(`[ERROR] Error comparing files ${sourceFile} and ${targetFile}: ${(error as Error).message}`)
     return false
   }
 }
 
-function copyFile(sourceFile, targetFile) {
+function copyFile(sourceFile: string, targetFile: string): boolean {
   try {
     // 先检查文件是否相同
     if (areFilesIdentical(sourceFile, targetFile)) {
       console.log(`[INFO] Skipped: ${path.basename(sourceFile)} (identical)`)
       return false // 返回false表示未复制（文件相同）
     }
-    
+
     const targetDir = path.dirname(targetFile)
     if (!fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir, { recursive: true })
@@ -79,7 +81,7 @@ function copyFile(sourceFile, targetFile) {
     console.log(`[SUCCESS] Copied: ${path.basename(sourceFile)} (${fileSizeKB} KB) to ${targetFile}`)
     return true // 返回true表示已复制（文件不同）
   } catch (error) {
-    console.error(`[ERROR] Failed to copy ${sourceFile} to ${targetFile}: ${error.message}`)
+    console.error(`[ERROR] Failed to copy ${sourceFile} to ${targetFile}: ${(error as Error).message}`)
     return true // 出错时默认需要更新
   }
 }
@@ -88,10 +90,10 @@ let pluginCounter = 0;
 pluginsList.forEach(pluginPath => {
   pluginCounter++;
   console.log(`\n[INFO] Processing plugin ${pluginCounter}/${pluginsList.length}: ${path.basename(pluginPath)}`)
-  
+
   let fileCounter = 0;
   let needUpdate = false;
-  
+
   GENERAL_FILE_LIST.forEach(file => {
     fileCounter++;
     const sourceFile = path.join(currentPath, file)
@@ -108,7 +110,7 @@ pluginsList.forEach(pluginPath => {
       needUpdate = true;
     }
   })
-  
+
   if (needUpdate) {
     pluginsNeedUpdate.push(pluginPath);
     console.log(`[INFO] Plugin ${path.basename(pluginPath)} marked for update`);
@@ -121,18 +123,19 @@ console.log('\n[INFO] File synchronization completed successfully!')
 console.log(`[INFO] Plugins requiring updates: ${pluginsNeedUpdate.length}/${pluginsList.length}`)
 
 
-function getCurrentVersion(projectPath) {
-  const packageJson = require(path.join(projectPath, 'package.json'))
+function getCurrentVersion(projectPath: string): string {
+  const packageJsonPath = path.join(projectPath, 'package.json')
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   return packageJson.version
 }
 
-function incrementVersion(version) {
+function incrementVersion(version: string): string {
   const parts = version.split('.')
   const patch = parseInt(parts[2], 10) + 1
   return `${parts[0]}.${parts[1]}.${patch}`
 }
 
-function updateVersion(projectPath, newVersion) {
+function updateVersion(projectPath: string, newVersion: string): void {
   const packageJsonPath = path.join(projectPath, 'package.json')
   const packageLockPath = path.join(projectPath, 'package-lock.json')
 
@@ -147,7 +150,7 @@ function updateVersion(projectPath, newVersion) {
   }
 }
 
-function executeGitCommit(projectPath, commitMessage) {
+function executeGitCommit(projectPath: string, commitMessage: string): void {
   try {
     execSync('git add .', { cwd: projectPath, stdio: 'inherit' })
     execSync(`git commit -m "${commitMessage}"`, { cwd: projectPath, stdio: 'inherit' })
@@ -158,7 +161,7 @@ function executeGitCommit(projectPath, commitMessage) {
   }
 }
 
-function createGitTag(projectPath, version) {
+function createGitTag(projectPath: string, version: string): void {
   try {
     execSync(`git tag v${version}`, { cwd: projectPath, stdio: 'inherit' })
   } catch (error) {
@@ -168,7 +171,7 @@ function createGitTag(projectPath, version) {
   }
 }
 
-function executeGitPush(projectPath) {
+function executeGitPush(projectPath: string): void {
   try {
     execSync('git push --follow-tags', { cwd: projectPath, stdio: 'inherit' })
   } catch (error) {
@@ -183,27 +186,26 @@ if (pluginsNeedUpdate.length > 0) {
   pluginsNeedUpdate.forEach(pluginPath => {
     const currentVersion = getCurrentVersion(pluginPath)
     const newVersion = incrementVersion(currentVersion)
-  
+
     console.log('\n\n[INFO] Committing:', path.basename(pluginPath))
     console.log(`[INFO] Incremented version: ${currentVersion} -> ${newVersion}`)
-  
+
     updateVersion(pluginPath, newVersion)
-  
+
     console.log('')
     executeGitCommit(pluginPath, COMMIT_MESSAGE)
     createGitTag(pluginPath, newVersion)
   })
-  
+
   console.log('\n\n[SUCCESS] All updated plugins have been committed and tagged.')
-  
+
   pluginsNeedUpdate.forEach(pluginPath => {
     console.log('\n\n[INFO] Pushing:', path.basename(pluginPath))
     executeGitPush(pluginPath)
   })
-  
+
   console.log('\n\n[SUCCESS] All updated plugins have been pushed to the remote repository.')
 } else {
   console.log('\n\n[INFO] No plugins need updates, skipping version increment and commit process.')
 }
-
 
