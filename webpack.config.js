@@ -3,7 +3,7 @@ import fs from 'fs'
 import { fileURLToPath } from 'url'
 
 import webpack from 'webpack'
-import WebSocket from 'ws'
+import { WebSocketServer, WebSocket } from 'ws'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
@@ -20,7 +20,7 @@ class CompilationNotifierPlugin {
 
     compiler.hooks.compile.tap('CompilationNotifierPlugin', () => {
       if (wss) return
-      wss = new WebSocket.Server({ port: packageJson.plugin.port.debug })
+      wss = new WebSocketServer({ port: packageJson.plugin.port.debug })
       console.log('\nCompilation NotifierPlugin Websocket Started.\n')
     })
 
