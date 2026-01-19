@@ -148,7 +148,6 @@ export default (env, argv) => {
       valtio: 'Valtio',
       'rhine-var': 'RhineVar',
       'rhine-var/react': 'RhineVarReact',
-      antd: 'AntD',
       'file-type': 'FileType',
       mime: 'Mime',
       'brotli-wasm': 'BrotliWasm',

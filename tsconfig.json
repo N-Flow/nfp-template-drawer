@@ -24,7 +24,8 @@
 
     /* Output */
     "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["react", "react-dom"],
 
     "declaration": true,
     "declarationMap": true,

@@ -1,17 +1,13 @@
 import { execSync } from 'child_process'
-import * as fs from 'fs'
-import * as path from 'path'
-import * as readline from 'readline'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import fs from 'fs'
+import path from 'path'
+import readline from 'readline'
 
 // 配置项
 const COMMIT_MESSAGE = 'chore: update package version'
-const pluginsPath = path.resolve(__dirname, '../../')
-const pluginProjectPrefix = 'nfp-'
-const currentPath = path.resolve(__dirname, '../')
+const PROJECT_PATH = process.cwd()
+const PLUGINS_PATH = path.resolve(PROJECT_PATH, '../')
+const PLUGIN_PROJECT_PREFIX = 'nfp-'
 
 interface PackageJson {
   name: string
@@ -41,7 +37,7 @@ function askQuestion(query: string): Promise<string> {
 
 // 读取当前项目的包版本
 function readCurrentPackageVersions(packageNames: string[]): PackageVersions {
-  const packageJsonPath = path.join(currentPath, 'package.json')
+  const packageJsonPath = path.join(PROJECT_PATH, 'package.json')
   const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
 
   const versions: PackageVersions = {}
@@ -78,12 +74,12 @@ function readCurrentPackageVersions(packageNames: string[]): PackageVersions {
 function getPluginProjects(): string[] {
   const pluginsList: string[] = []
 
-  fs.readdirSync(pluginsPath).forEach(file => {
-    const fullPath = path.join(pluginsPath, file)
+  fs.readdirSync(PLUGINS_PATH).forEach(file => {
+    const fullPath = path.join(PLUGINS_PATH, file)
     if (
       fs.statSync(fullPath).isDirectory() &&
-      file.startsWith(pluginProjectPrefix) &&
-      fullPath !== currentPath
+      file.startsWith(PLUGIN_PROJECT_PREFIX) &&
+      fullPath !== PROJECT_PATH
     ) {
       pluginsList.push(fullPath)
     }
@@ -143,6 +139,60 @@ function checkAndUpdatePlugin(
   if (hasChanges) {
     console.log(`[INFO] Updates for ${path.basename(pluginPath)}:`)
     updates.forEach(update => console.log(update))
+
+    // 更新版本号
+    const currentVersion = packageJson.version
+    const newVersion = incrementVersion(currentVersion)
+    packageJson.version = newVersion
+    console.log(`[INFO] Version: ${currentVersion} -> ${newVersion}`)
+
+    // 写入package.json
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
+
+    return true
+  }
+
+  return false
+}
+
+// 检查并删除插件的指定包
+function checkAndRemovePackages(pluginPath: string, packageNames: string[]): boolean {
+  const packageJsonPath = path.join(pluginPath, 'package.json')
+
+  if (!fs.existsSync(packageJsonPath)) {
+    console.warn(`[WARNING] package.json not found in ${pluginPath}`)
+    return false
+  }
+
+  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  let hasChanges = false
+  const removals: string[] = []
+
+  // 检查并删除dependencies中的包
+  if (packageJson.dependencies) {
+    packageNames.forEach(packageName => {
+      if (packageJson.dependencies![packageName]) {
+        removals.push(`  ${packageName} (from dependencies)`)
+        delete packageJson.dependencies![packageName]
+        hasChanges = true
+      }
+    })
+  }
+
+  // 检查并删除devDependencies中的包
+  if (packageJson.devDependencies) {
+    packageNames.forEach(packageName => {
+      if (packageJson.devDependencies![packageName]) {
+        removals.push(`  ${packageName} (from devDependencies)`)
+        delete packageJson.devDependencies![packageName]
+        hasChanges = true
+      }
+    })
+  }
+
+  if (hasChanges) {
+    console.log(`[INFO] Removals for ${path.basename(pluginPath)}:`)
+    removals.forEach(removal => console.log(removal))
 
     // 更新版本号
     const currentVersion = packageJson.version
@@ -236,36 +286,64 @@ function gitPush(pluginPath: string): void {
 
 // 主函数
 async function main() {
-  console.log('[INFO] Package Update Tool for All Plugins\n')
+  console.log('[INFO] Package Management Tool for All Plugins\n')
+
+  // 询问用户选择操作模式
+  const mode = await askQuestion('Choose mode (update/remove): ')
+  const isRemoveMode = mode.trim().toLowerCase() === 'remove'
+
+  if (!isRemoveMode && mode.trim().toLowerCase() !== 'update') {
+    console.error('[ERROR] Invalid mode. Please choose "update" or "remove"')
+    process.exit(1)
+  }
+
+  console.log(`\n[INFO] Mode: ${isRemoveMode ? 'REMOVE' : 'UPDATE'}\n`)
 
   // 询问用户输入包名
   const input = await askQuestion(
-    'Enter package names (space-separated, leave empty for all packages): '
+    isRemoveMode
+      ? 'Enter package names to remove (space-separated): '
+      : 'Enter package names (space-separated, leave empty for all packages): '
   )
   const packageNames = input
     .trim()
     .split(/\s+/)
     .filter(name => name.length > 0)
 
+  if (isRemoveMode && packageNames.length === 0) {
+    console.error('[ERROR] Please specify at least one package name to remove')
+    process.exit(1)
+  }
+
   console.log(
     `\n[INFO] Target packages: ${packageNames.length === 0 ? 'ALL' : packageNames.join(', ')}\n`
   )
 
-  // 读取目标版本
-  const targetVersions = readCurrentPackageVersions(packageNames)
+  let commitMessage = COMMIT_MESSAGE
 
-  if (Object.keys(targetVersions).length === 0) {
-    console.error('[ERROR] No packages found to update')
-    process.exit(1)
+  if (isRemoveMode) {
+    // 删除模式
+    commitMessage = 'chore: remove packages'
+    console.log('[INFO] Packages to remove:')
+    packageNames.forEach(name => console.log(`  ${name}`))
+    console.log('')
+  } else {
+    // 更新模式
+    const targetVersions = readCurrentPackageVersions(packageNames)
+
+    if (Object.keys(targetVersions).length === 0) {
+      console.error('[ERROR] No packages found to update')
+      process.exit(1)
+    }
+
+    console.log('[INFO] Target versions:')
+    Object.entries(targetVersions).forEach(([name, version]) => {
+      console.log(`  ${name}: ${version}`)
+    })
+    console.log('')
   }
 
-  console.log('[INFO] Target versions:')
-  Object.entries(targetVersions).forEach(([name, version]) => {
-    console.log(`  ${name}: ${version}`)
-  })
-  console.log('')
-
-  console.log(`[INFO] Commit message: ${COMMIT_MESSAGE}\n`)
+  console.log(`[INFO] Commit message: ${commitMessage}\n`)
 
   // 获取所有插件项目
   const pluginsList = getPluginProjects()
@@ -277,25 +355,32 @@ async function main() {
   for (const pluginPath of pluginsList) {
     console.log(`\n[INFO] Checking ${path.basename(pluginPath)}...`)
 
-    const needsUpdate = checkAndUpdatePlugin(pluginPath, targetVersions)
+    let needsUpdate = false
+
+    if (isRemoveMode) {
+      needsUpdate = checkAndRemovePackages(pluginPath, packageNames)
+    } else {
+      const targetVersions = readCurrentPackageVersions(packageNames)
+      needsUpdate = checkAndUpdatePlugin(pluginPath, targetVersions)
+    }
 
     if (needsUpdate) {
       // 读取更新后的版本
       const packageJsonPath = path.join(pluginPath, 'package.json')
       const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
       pluginsNeedUpdate.push({ path: pluginPath, version: packageJson.version })
-      console.log(`[SUCCESS] ${path.basename(pluginPath)} marked for update`)
+      console.log(`[SUCCESS] ${path.basename(pluginPath)} marked for ${isRemoveMode ? 'removal' : 'update'}`)
     } else {
-      console.log(`[INFO] ${path.basename(pluginPath)} is up to date`)
+      console.log(`[INFO] ${path.basename(pluginPath)} ${isRemoveMode ? 'does not have these packages' : 'is up to date'}`)
     }
   }
 
   if (pluginsNeedUpdate.length === 0) {
-    console.log('\n[INFO] All plugins are up to date. No updates needed.')
+    console.log(`\n[INFO] No plugins need ${isRemoveMode ? 'package removal' : 'updates'}.`)
     return
   }
 
-  console.log(`\n[INFO] ${pluginsNeedUpdate.length} plugins need updates\n`)
+  console.log(`\n[INFO] ${pluginsNeedUpdate.length} plugins need ${isRemoveMode ? 'package removal' : 'updates'}\n`)
 
   const pluginsReadyToPush: string[] = []
 
@@ -311,7 +396,7 @@ async function main() {
       runBunInstall(pluginPath)
 
       // 3. Git提交和创建tag
-      gitCommitAndTag(pluginPath, COMMIT_MESSAGE, version)
+      gitCommitAndTag(pluginPath, commitMessage, version)
 
       pluginsReadyToPush.push(pluginPath)
       console.log(`[SUCCESS] ${path.basename(pluginPath)} prepared successfully`)

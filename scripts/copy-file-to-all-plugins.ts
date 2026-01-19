@@ -1,10 +1,6 @@
 import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 const GENERAL_FILE_LIST = [
   '.github/workflows/deploy.yml',
@@ -18,22 +14,22 @@ const GENERAL_FILE_LIST = [
   'tsconfig.json',
   'tsconfig.production.json',
   'webpack.config.js',
+  'prettier.config.js',
+  'rhine-lint.config.ts',
 ]
 
 const COMMIT_MESSAGE = 'chore: sync files from nfp-template'
 
-
-const pluginsPath = path.resolve(__dirname, '../../')
-const currentPath = path.resolve(__dirname, '../')
-
+const PROJECT_PATH = process.cwd()
+const PLUGINS_PATH = path.resolve(PROJECT_PATH, '../')
+const PLUGIN_PROJECT_PREFIX = 'nfp-'
 
 const pluginsList: string[] = []
-// 记录需要更新的插件
-const pluginsNeedUpdate: string[] = []
+const pluginsNeedUpdate: string[] = []  // 记录需要更新的插件
 
-fs.readdirSync(pluginsPath).forEach(file => {
-  const fullPath = path.join(pluginsPath, file)
-  if (fs.statSync(fullPath).isDirectory() && file.startsWith('nfp-') && fullPath !== currentPath) {
+fs.readdirSync(PLUGINS_PATH).forEach(file => {
+  const fullPath = path.join(PLUGINS_PATH, file)
+  if (fs.statSync(fullPath).isDirectory() && file.startsWith(PLUGIN_PROJECT_PREFIX) && fullPath !== PROJECT_PATH) {
     pluginsList.push(fullPath)
   }
 })
@@ -42,7 +38,7 @@ console.log('[INFO] Target Plugins:')
 console.log(pluginsList)
 
 console.log('\n[INFO] Starting file synchronization process...')
-console.log(`[INFO] Source directory: ${currentPath}`)
+console.log(`[INFO] Source directory: ${PROJECT_PATH}`)
 console.log(`[INFO] Total files to sync: ${GENERAL_FILE_LIST.length}`)
 console.log(`[INFO] Target plugins: ${pluginsList.length}\n`)
 
@@ -99,7 +95,7 @@ pluginsList.forEach(pluginPath => {
 
   GENERAL_FILE_LIST.forEach(file => {
     fileCounter++;
-    const sourceFile = path.join(currentPath, file)
+    const sourceFile = path.join(PROJECT_PATH, file)
 
     if (!fs.existsSync(sourceFile)) {
       console.warn(`[WARNING] Source file does not exist: ${sourceFile}`)
