@@ -20,6 +20,11 @@ interface PackageVersions {
   [packageName: string]: string
 }
 
+interface PackageInfo {
+  version: string
+  type: 'dependencies' | 'devDependencies'
+}
+
 // 创建readline接口用于用户输入
 function askQuestion(query: string): Promise<string> {
   const rl = readline.createInterface({
@@ -33,6 +38,47 @@ function askQuestion(query: string): Promise<string> {
       resolve(ans)
     })
   )
+}
+
+// 读取当前项目的包版本（带依赖类型信息）
+function readCurrentPackageInfo(packageNames: string[]): Record<string, PackageInfo> {
+  const packageJsonPath = path.join(PROJECT_PATH, 'package.json')
+  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+
+  const packageInfos: Record<string, PackageInfo> = {}
+
+  if (packageNames.length === 0) {
+    // 读取所有包
+    if (packageJson.dependencies) {
+      Object.entries(packageJson.dependencies).forEach(([name, version]) => {
+        packageInfos[name] = { version, type: 'dependencies' }
+      })
+    }
+    if (packageJson.devDependencies) {
+      Object.entries(packageJson.devDependencies).forEach(([name, version]) => {
+        packageInfos[name] = { version, type: 'devDependencies' }
+      })
+    }
+  } else {
+    // 只读取指定的包
+    packageNames.forEach(name => {
+      if (packageJson.dependencies?.[name]) {
+        packageInfos[name] = {
+          version: packageJson.dependencies[name],
+          type: 'dependencies',
+        }
+      } else if (packageJson.devDependencies?.[name]) {
+        packageInfos[name] = {
+          version: packageJson.devDependencies[name],
+          type: 'devDependencies',
+        }
+      } else {
+        console.warn(`[WARNING] Package "${name}" not found in current project`)
+      }
+    })
+  }
+
+  return packageInfos
 }
 
 // 读取当前项目的包版本
@@ -139,6 +185,65 @@ function checkAndUpdatePlugin(
   if (hasChanges) {
     console.log(`[INFO] Updates for ${path.basename(pluginPath)}:`)
     updates.forEach(update => console.log(update))
+
+    // 更新版本号
+    const currentVersion = packageJson.version
+    const newVersion = incrementVersion(currentVersion)
+    packageJson.version = newVersion
+    console.log(`[INFO] Version: ${currentVersion} -> ${newVersion}`)
+
+    // 写入package.json
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
+
+    return true
+  }
+
+  return false
+}
+
+// 检查并添加插件缺失的包
+function checkAndAddPackages(
+  pluginPath: string,
+  targetPackages: Record<string, PackageInfo>
+): boolean {
+  const packageJsonPath = path.join(pluginPath, 'package.json')
+
+  if (!fs.existsSync(packageJsonPath)) {
+    console.warn(`[WARNING] package.json not found in ${pluginPath}`)
+    return false
+  }
+
+  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  let hasChanges = false
+  const additions: string[] = []
+
+  // 检查每个目标包
+  Object.entries(targetPackages).forEach(([packageName, info]) => {
+    const existsInDeps = packageJson.dependencies?.[packageName]
+    const existsInDevDeps = packageJson.devDependencies?.[packageName]
+
+    // 如果包不存在于目标项目中，则添加到对应的依赖类型
+    if (!existsInDeps && !existsInDevDeps) {
+      if (info.type === 'dependencies') {
+        if (!packageJson.dependencies) {
+          packageJson.dependencies = {}
+        }
+        packageJson.dependencies[packageName] = info.version
+        additions.push(`  ${packageName}: ${info.version} (to dependencies)`)
+      } else {
+        if (!packageJson.devDependencies) {
+          packageJson.devDependencies = {}
+        }
+        packageJson.devDependencies[packageName] = info.version
+        additions.push(`  ${packageName}: ${info.version} (to devDependencies)`)
+      }
+      hasChanges = true
+    }
+  })
+
+  if (hasChanges) {
+    console.log(`[INFO] Additions for ${path.basename(pluginPath)}:`)
+    additions.forEach(addition => console.log(addition))
 
     // 更新版本号
     const currentVersion = packageJson.version
@@ -289,28 +394,30 @@ async function main() {
   console.log('[INFO] Package Management Tool for All Plugins\n')
 
   // 询问用户选择操作模式
-  const mode = await askQuestion('Choose mode (update/remove): ')
-  const isRemoveMode = mode.trim().toLowerCase() === 'remove'
+  const mode = await askQuestion('Choose mode (update/add/remove): ')
+  const modeType = mode.trim().toLowerCase()
 
-  if (!isRemoveMode && mode.trim().toLowerCase() !== 'update') {
-    console.error('[ERROR] Invalid mode. Please choose "update" or "remove"')
+  if (!['update', 'add', 'remove'].includes(modeType)) {
+    console.error('[ERROR] Invalid mode. Please choose "update", "add", or "remove"')
     process.exit(1)
   }
 
-  console.log(`\n[INFO] Mode: ${isRemoveMode ? 'REMOVE' : 'UPDATE'}\n`)
+  console.log(`\n[INFO] Mode: ${modeType.toUpperCase()}\n`)
 
   // 询问用户输入包名
   const input = await askQuestion(
-    isRemoveMode
+    modeType === 'remove'
       ? 'Enter package names to remove (space-separated): '
-      : 'Enter package names (space-separated, leave empty for all packages): '
+      : modeType === 'add'
+        ? 'Enter package names to add (space-separated, leave empty for all packages): '
+        : 'Enter package names (space-separated, leave empty for all packages): '
   )
   const packageNames = input
     .trim()
     .split(/\s+/)
     .filter(name => name.length > 0)
 
-  if (isRemoveMode && packageNames.length === 0) {
+  if (modeType === 'remove' && packageNames.length === 0) {
     console.error('[ERROR] Please specify at least one package name to remove')
     process.exit(1)
   }
@@ -321,11 +428,26 @@ async function main() {
 
   let commitMessage = COMMIT_MESSAGE
 
-  if (isRemoveMode) {
+  if (modeType === 'remove') {
     // 删除模式
     commitMessage = 'chore: remove packages'
     console.log('[INFO] Packages to remove:')
     packageNames.forEach(name => console.log(`  ${name}`))
+    console.log('')
+  } else if (modeType === 'add') {
+    // 添加模式
+    commitMessage = 'chore: add packages'
+    const targetPackages = readCurrentPackageInfo(packageNames)
+
+    if (Object.keys(targetPackages).length === 0) {
+      console.error('[ERROR] No packages found to add')
+      process.exit(1)
+    }
+
+    console.log('[INFO] Packages to add:')
+    Object.entries(targetPackages).forEach(([name, info]) => {
+      console.log(`  ${name}: ${info.version} (${info.type})`)
+    })
     console.log('')
   } else {
     // 更新模式
@@ -357,8 +479,11 @@ async function main() {
 
     let needsUpdate = false
 
-    if (isRemoveMode) {
+    if (modeType === 'remove') {
       needsUpdate = checkAndRemovePackages(pluginPath, packageNames)
+    } else if (modeType === 'add') {
+      const targetPackages = readCurrentPackageInfo(packageNames)
+      needsUpdate = checkAndAddPackages(pluginPath, targetPackages)
     } else {
       const targetVersions = readCurrentPackageVersions(packageNames)
       needsUpdate = checkAndUpdatePlugin(pluginPath, targetVersions)
@@ -369,18 +494,18 @@ async function main() {
       const packageJsonPath = path.join(pluginPath, 'package.json')
       const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
       pluginsNeedUpdate.push({ path: pluginPath, version: packageJson.version })
-      console.log(`[SUCCESS] ${path.basename(pluginPath)} marked for ${isRemoveMode ? 'removal' : 'update'}`)
+      console.log(`[SUCCESS] ${path.basename(pluginPath)} marked for ${modeType === 'remove' ? 'removal' : modeType === 'add' ? 'addition' : 'update'}`)
     } else {
-      console.log(`[INFO] ${path.basename(pluginPath)} ${isRemoveMode ? 'does not have these packages' : 'is up to date'}`)
+      console.log(`[INFO] ${path.basename(pluginPath)} ${modeType === 'remove' ? 'does not have these packages' : modeType === 'add' ? 'already has these packages' : 'is up to date'}`)
     }
   }
 
   if (pluginsNeedUpdate.length === 0) {
-    console.log(`\n[INFO] No plugins need ${isRemoveMode ? 'package removal' : 'updates'}.`)
+    console.log(`\n[INFO] No plugins need ${modeType === 'remove' ? 'package removal' : modeType === 'add' ? 'package addition' : 'updates'}.`)
     return
   }
 
-  console.log(`\n[INFO] ${pluginsNeedUpdate.length} plugins need ${isRemoveMode ? 'package removal' : 'updates'}\n`)
+  console.log(`\n[INFO] ${pluginsNeedUpdate.length} plugins need ${modeType === 'remove' ? 'package removal' : modeType === 'add' ? 'package addition' : 'updates'}\n`)
 
   const pluginsReadyToPush: string[] = []
 
